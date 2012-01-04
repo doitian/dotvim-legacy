@@ -76,3 +76,6 @@
 [submodule "bundle/bufexplorer"]
 	path = bundle/bufexplorer
 	url = git://github.com/vim-scripts/bufexplorer.zip.git
+[submodule "bundle/tslime/plugin"]
+	path = bundle/tslime/plugin
+	url = git://github.com/kikijump/tslime.vim.git

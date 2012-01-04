@@ -307,6 +307,11 @@ nnoremap <leader>v V`]
 
 " Gundo.vim
 nnoremap <leader>u :GundoToggle<CR>
+
+" Bind tslime again
+vnoremap <leader>t "ry :call Send_to_Tmux(@r)<cr>
+nmap <leader>t vip<leader>t
+
 " }}}
 
 " NERDTree settings {{{
