@@ -7,7 +7,7 @@ call pathogen#infect()
 
 " Theme {{{
 
-set statusline=%{fugitive#statusline()}
+set statusline=%<%f%{fugitive#statusline()}\ %h%m%r%=%-14.(%l,%c%V%)\ %P
 
 if has("gui_running")
   set guifont=Inconsolata:h16
