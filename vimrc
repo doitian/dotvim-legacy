@@ -10,7 +10,13 @@ call pathogen#infect()
 set statusline=%<%f%{fugitive#statusline()}\ %h%m%r%=%-14.(%l,%c%V%)\ %P
 
 if has("gui_running")
-  set guifont=Inconsolata:h16
+  if has("mac")
+    set guifont=Inconsolata:h16
+  else
+    set guifont=Inconsolata\ 12
+    set guioptions-=m
+  endif
+
   colors zenburn
 
   " Remove toolbar, left scrollbar and right scrollbar
@@ -311,6 +317,9 @@ nnoremap <leader>u :GundoToggle<CR>
 " Bind tslime again
 vnoremap <leader>t "ry :call Send_to_Tmux(@r)<cr>
 nmap <leader>t vip<leader>t
+
+" CD HERE 
+command! -bang -nargs=? H cd %:h
 
 " }}}
 
