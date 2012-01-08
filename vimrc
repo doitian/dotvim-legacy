@@ -295,8 +295,8 @@ nnoremap N N:call PulseCursorLine()<cr>
 cmap w!! w !sudo tee % >/dev/null
 
 " Jump to matching pairs easily, with Tab
-nmap <Tab> %
-vmap <Tab> %
+nmap <leader>, %
+vmap <leader>, %
 
 " Folding
 nnoremap <Space> za
