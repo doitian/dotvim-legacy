@@ -210,14 +210,16 @@ let g:mapleader = ","
 nnoremap ; :
 
 " toggle insert/normal mode
-inoremap <M-space> <Esc>
-nnoremap <M-space> a
+inoremap <Space> <Esc>l
+cnoremap <Space> <Esc>
+vnoremap <Space> <Esc>
+nnoremap <Space> i
 
 " insert underscore and dash
-inoremap <M-u> _
-inoremap <M-l> -
-cnoremap <M-u> _
-cnoremap <M-l> -
+inoremap u _
+inoremap l -
+cnoremap u _
+cnoremap l -
 
 " save C-U in undo
 inoremap <C-U> <C-G>u<C-U>
