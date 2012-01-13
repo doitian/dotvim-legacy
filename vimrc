@@ -72,7 +72,7 @@ set smartcase                   " ignore case if search pattern is all lowercase
 set smarttab                    " insert tabs on the start of a line according to
                                 "    shiftwidth, not tabstop
 set scrolloff=4                 " keep 4 lines off the edges of the screen when scrolling
-set virtualedit=all             " allow the cursor to go in to "invalid" places
+set virtualedit="vb"
 set hlsearch                    " highlight search terms
 set incsearch                   " show search matches as you type
 set gdefault                    " search/replace "globally" (on a line) by default
@@ -205,14 +205,14 @@ nmap <silent> <leader>c /^\(<\\|=\\|>\)\{7\}\([^=].\+\)\?$<CR>
 " }}}
 
 " Shortcut mappings {{{
-let mapleader = ","
-let g:mapleader = ","
+let mapleader = " "
+let g:mapleader = " "
 nnoremap ; :
 
 " toggle insert/normal mode
-inoremap <Space> <Esc>l
-cnoremap <Space> <Esc>
-vnoremap <Space> <Esc>
+inoremap <Space> <Esc><Esc>l
+cnoremap <Space> <Esc><Esc>
+vnoremap <Space> <Esc><Esc>
 nnoremap <Space> i
 
 " insert underscore and dash
@@ -297,15 +297,15 @@ nnoremap N N:call PulseCursorLine()<cr>
 cmap w!! w !sudo tee % >/dev/null
 
 " Jump to matching pairs easily, with Tab
-nmap <leader>, %
-vmap <leader>, %
+nmap ,, %
+vmap ,, %
 
 " Folding
-nnoremap <Space> za
-vnoremap <Space> za
+nnoremap <leader><space> za
+vnoremap <leader><space> za
 
 " Strip all trailing whitespace from a file, using ,w
-nnoremap <leader>W :%s/\s\+$//<CR>:let @/=''<CR>
+nnoremap <leader>w :%s/\s\+$//<CR>:let @/=''<CR>
 
 " Run Ack fast
 nnoremap <leader>a :Ack<Space>
