@@ -207,12 +207,11 @@ nmap <silent> <leader>c /^\(<\\|=\\|>\)\{7\}\([^=].\+\)\?$<CR>
 " Shortcut mappings {{{
 let mapleader = " "
 let g:mapleader = " "
-nnoremap ; :
 
 " toggle insert/normal mode
-inoremap <Space> <Esc><Esc>l
-cnoremap <Space> <Esc><Esc>
-vnoremap <Space> <Esc><Esc>
+inoremap <Space> <Right><Esc>
+cnoremap <Space> <Right><Esc>
+vnoremap <Space> <Right><Esc>
 nnoremap <Space> i
 
 " insert underscore and dash
@@ -295,10 +294,6 @@ nnoremap N N:call PulseCursorLine()<cr>
 
 " Sudo to write
 cmap w!! w !sudo tee % >/dev/null
-
-" Jump to matching pairs easily, with Tab
-nmap ,, %
-vmap ,, %
 
 " Folding
 nnoremap <leader><space> za
