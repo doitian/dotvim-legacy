@@ -293,7 +293,7 @@ nnoremap n n:call PulseCursorLine()<cr>
 nnoremap N N:call PulseCursorLine()<cr>
 
 " Sudo to write
-cmap w!! w !sudo tee % >/dev/null
+command! Sw w !sudo tee % >/dev/null
 
 " Folding
 nnoremap <leader><space> za
@@ -381,6 +381,7 @@ let Tlist_Use_Right_Window=1
 
 " Plugins {{{
 let g:snippets_dir=expand("$HOME/.vim/snippets")
+nnoremap <c-p> :CtrlP<Return>
 " }}}
 
 " Filetype specific handling {{{
