@@ -381,7 +381,7 @@ let Tlist_Use_Right_Window=1
 
 " Plugins {{{
 let g:snippets_dir=expand("$HOME/.vim/snippets")
-nnoremap <c-p> :CtrlP<Return>
+inoremap p :CtrlP<CR>
 " }}}
 
 " Filetype specific handling {{{
