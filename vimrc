@@ -219,6 +219,8 @@ inoremap u _
 inoremap l -
 cnoremap u _
 cnoremap l -
+inoremap r <C-w>
+cnoremap r <C-w>
 
 " save C-U in undo
 inoremap <C-U> <C-G>u<C-U>
