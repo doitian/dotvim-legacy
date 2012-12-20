@@ -5,6 +5,9 @@ endif
 set nocompatible
 call pathogen#infect()
 
+let mapleader = " "
+let g:mapleader = " "
+
 " Theme {{{
 
 set statusline=%<%f%{fugitive#statusline()}\ %h%m%r%=%-14.(%l,%c%V%)\ %P
@@ -205,8 +208,6 @@ nmap <silent> <leader>c /^\(<\\|=\\|>\)\{7\}\([^=].\+\)\?$<CR>
 " }}}
 
 " Shortcut mappings {{{
-let mapleader = " "
-let g:mapleader = " "
 
 " toggle insert/normal mode
 inoremap <Space> <Right><Esc>
