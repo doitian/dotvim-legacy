@@ -306,6 +306,7 @@ vnoremap <leader><space> za
 nnoremap <leader>w :%s/\s\+$//<CR>:let @/=''<CR>
 
 " Run Ack fast
+let g:ackprg = 'ag --nogroup --nocolor --column'
 nnoremap <leader>a :Ack<Space>
 
 " Reselect text that was just pasted with ,v
