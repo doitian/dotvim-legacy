@@ -53,6 +53,28 @@ if has("gui_running")
 else
   set bg=dark
   colors zenburn
+
+  function Escalt_console()
+    for i in range(65, 90) + range(97, 122)
+      exe "set <M-".nr2char(i).">=\<Esc>".nr2char(i)
+    endfor
+    set ttimeoutlen=1
+    if &term =~ 'xterm'
+      set <F1>=OP
+      set <F2>=OQ
+      set <F3>=OR
+      set <F4>=OS
+      set <Home>=OH
+      set <End>=OF
+    endif
+    for i in ["", "c", "i", "x"]
+      exe i . "map Ï1;2P <S-F1>"
+      exe i . "map Ï1;2Q <S-F2>"
+      exe i . "map Ï1;2R <S-F3>"
+      exe i . "map Ï1;2S <S-F4>"
+    endfor
+  endfunction
+  call Escalt_console()
 endif
 " }}}
 
@@ -210,18 +232,19 @@ nmap <silent> <leader>c /^\(<\\|=\\|>\)\{7\}\([^=].\+\)\?$<CR>
 " Shortcut mappings {{{
 
 " insert underscore and dash
-inoremap u _
-inoremap l -
-cnoremap u _
-cnoremap l -
-inoremap r <C-w>
-cnoremap r <C-w>
+inoremap <M-u> _
+inoremap <M-l> -
+cnoremap <M-u> _
+cnoremap <M-l> -
+inoremap <M-r> <C-w>
+cnoremap <M-r> <C-w>
 
 " save C-U in undo
 inoremap <C-U> <C-G>u<C-U>
 
 " Avoid accidental hits of <F1> while aiming for <Esc>
 map! <F1> <Esc>
+" map! <Esc> <Esc><Esc>
 
 " Use Q for formatting the current paragraph (or visual selection)
 vmap Q gq
@@ -379,7 +402,7 @@ let Tlist_Use_Right_Window=1
 
 " Plugins {{{
 let g:snippets_dir=expand("$HOME/.vim/snippets")
-nnoremap p :CtrlP<CR>
+nnoremap <M-p> :CtrlP<CR>
 " }}}
 
 " Filetype specific handling {{{
