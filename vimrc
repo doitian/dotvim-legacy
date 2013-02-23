@@ -209,12 +209,6 @@ nmap <silent> <leader>c /^\(<\\|=\\|>\)\{7\}\([^=].\+\)\?$<CR>
 
 " Shortcut mappings {{{
 
-" toggle insert/normal mode
-inoremap <C-@> <Right><Esc>
-cnoremap <C-@> <Right><Esc>
-vnoremap <C-@> <Right><Esc>
-nnoremap <C-@> i
-
 " insert underscore and dash
 inoremap u _
 inoremap l -
