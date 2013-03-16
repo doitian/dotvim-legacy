@@ -59,7 +59,7 @@ else
       exe "set <M-".nr2char(i).">=\<Esc>".nr2char(i)
     endfor
     set ttimeoutlen=1
-    if &term =~ 'xterm'
+    if &term =~ 'xterm' || &term =~ 'rxvt-256color'
       set <F1>=OP
       set <F2>=OQ
       set <F3>=OR
