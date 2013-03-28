@@ -16,7 +16,7 @@ if has("gui_running")
   if has("mac")
     set guifont=Inconsolata:h16
   else
-    set guifont=Inconsolata\ 12
+    set guifont=Inconsolata\ 14
     set guioptions-=m
   endif
 
@@ -53,28 +53,6 @@ if has("gui_running")
 else
   set bg=dark
   colors zenburn
-
-  function Escalt_console()
-    for i in range(65, 90) + range(97, 122)
-      exe "set <M-".nr2char(i).">=\<Esc>".nr2char(i)
-    endfor
-    set ttimeoutlen=1
-    if &term =~ 'xterm' || &term =~ 'rxvt-256color'
-      set <F1>=OP
-      set <F2>=OQ
-      set <F3>=OR
-      set <F4>=OS
-      set <Home>=OH
-      set <End>=OF
-    endif
-    for i in ["", "c", "i", "x"]
-      exe i . "map Ï1;2P <S-F1>"
-      exe i . "map Ï1;2Q <S-F2>"
-      exe i . "map Ï1;2R <S-F3>"
-      exe i . "map Ï1;2S <S-F4>"
-    endfor
-  endfunction
-  call Escalt_console()
 endif
 " }}}
 
@@ -200,8 +178,8 @@ set nomodeline                  " disable mode lines (security measure)
 set cursorline                  " underline the current line, for quick orientation
 set ruler                       " show row,column info in modeline
 
-" Tame the quickfix window (open/close using ,f)
-nmap <silent> <leader>f :QFix<CR>
+" Tame the quickfix window (open/close using ,q)
+nmap <silent> <leader>q :QFix<CR>
 
 command! -bang -nargs=? QFix call QFixToggle(<bang>0)
 function! QFixToggle(forced)
@@ -231,6 +209,8 @@ nmap <silent> <leader>c /^\(<\\|=\\|>\)\{7\}\([^=].\+\)\?$<CR>
 
 " Shortcut mappings {{{
 
+nnoremap ; :
+
 " insert underscore and dash
 inoremap <M-u> _
 inoremap <M-l> -
@@ -244,7 +224,6 @@ inoremap <C-U> <C-G>u<C-U>
 
 " Avoid accidental hits of <F1> while aiming for <Esc>
 map! <F1> <Esc>
-" map! <Esc> <Esc><Esc>
 
 " Use Q for formatting the current paragraph (or visual selection)
 vmap Q gq
@@ -267,7 +246,6 @@ nnoremap ` '
 " map <down> <nop>
 " map <left> <nop>
 " map <right> <nop>
-
 " Remap j and k to act as expected when used on long, wrapped, lines
 nnoremap j gj
 nnoremap k gk
@@ -336,6 +314,10 @@ nnoremap <leader>u :GundoToggle<CR>
 vnoremap <leader>t "ry :call Send_to_Tmux(@r)<cr>
 nmap <leader>t vip<leader>t
 
+" Find file here
+
+cnoremap %% <C-R>=expand('%:h').'/'<cr>
+nmap <leader>e :e %%
 " CD HERE 
 command! -bang -nargs=? H cd %:h
 
@@ -402,7 +384,15 @@ let Tlist_Use_Right_Window=1
 
 " Plugins {{{
 let g:snippets_dir=expand("$HOME/.vim/snippets")
-nnoremap <M-p> :CtrlP<CR>
+let g:ctrlp_map = '<leader>s'
+
+nnoremap <leader>gd :Gdiff!<Enter>
+nnoremap <leader>gs :Gstatus<Enter>
+nnoremap <leader>gl :Glog<Enter>
+nnoremap <leader>ga :Git add %<CR><CR>
+nnoremap <leader>gc :Gcommit<Enter>
+nnoremap <leader>gC :Gcommit -v<Enter>
+
 " }}}
 
 " Filetype specific handling {{{
