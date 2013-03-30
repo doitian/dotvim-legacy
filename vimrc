@@ -210,6 +210,7 @@ nmap <silent> <leader>c /^\(<\\|=\\|>\)\{7\}\([^=].\+\)\?$<CR>
 " Shortcut mappings {{{
 
 nnoremap ; :
+nnoremap <leader>, :nmap , :w\\|!
 
 " insert underscore and dash
 inoremap <M-u> _
@@ -328,6 +329,7 @@ command! -bang -nargs=? H cd %:h
 " immediately showing it again, since there is no :NERDTreeFocus command)
 nmap <leader>n :NERDTreeToggle<CR>
 nmap <leader>N :NERDTreeFind<CR>
+command NT NERDTree
 
 " Store the bookmarks file
 let NERDTreeBookmarksFile=expand("$HOME/.vim/NERDTreeBookmarks")
