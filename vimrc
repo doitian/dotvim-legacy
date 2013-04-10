@@ -5,8 +5,8 @@ endif
 set nocompatible
 call pathogen#infect()
 
-let mapleader = " "
-let g:mapleader = " "
+let mapleader = ","
+let g:mapleader = ","
 
 " Theme {{{
 
@@ -205,12 +205,13 @@ match ErrorMsg '^\(<\|=\|>\)\{7\}\([^=].\+\)\?$'
 
 " shortcut to jump to next conflict marker
 nmap <silent> <leader>c /^\(<\\|=\\|>\)\{7\}\([^=].\+\)\?$<CR>
+
 " }}}
 
 " Shortcut mappings {{{
 
 nnoremap ; :
-nnoremap <leader>, :nmap , :w\\|!
+nnoremap <leader>X :nmap ,x :w\\|!<Space><C-v><CR<C-v>><Left><Left><Left><Left><Left>
 
 " insert underscore and dash
 inoremap <M-u> _
@@ -295,8 +296,8 @@ nnoremap N N:call PulseCursorLine()<cr>
 command! Sw w !sudo tee % >/dev/null
 
 " Folding
-nnoremap <leader><space> za
-vnoremap <leader><space> za
+nnoremap <leader><Space> za
+vnoremap <leader><Space> za
 
 " Strip all trailing whitespace from a file, using ,w
 nnoremap <leader>w :%s/\s\+$//<CR>:let @/=''<CR>
@@ -386,7 +387,7 @@ let Tlist_Use_Right_Window=1
 
 " Plugins {{{
 let g:snippets_dir=expand("$HOME/.vim/snippets")
-let g:ctrlp_map = '<leader>s'
+let g:ctrlp_map = '<leader>,'
 
 nnoremap <leader>gd :Gdiff!<Enter>
 nnoremap <leader>gs :Gstatus<Enter>
