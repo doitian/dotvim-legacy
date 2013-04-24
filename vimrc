@@ -155,7 +155,7 @@ if has("vms")
 else
   set backup
 endif
-set backupdir=~/.backup/vim
+set backupdir=~/.vim/backup
 "set nobackup                    " do not keep backup files, it's 70's style cluttering
 "set noswapfile                  " do not write annoying intermediate swap files,
                                 "    who did ever restore from swap files anyway?
