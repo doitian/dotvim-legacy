@@ -387,6 +387,7 @@ let Tlist_Use_Right_Window=1
 
 " Plugins {{{
 let g:snippets_dir=expand("$HOME/.vim/snippets")
+let g:ctrlp_root_markers = ['.eproject']
 let g:ctrlp_map = '<leader>,'
 
 nnoremap <leader>gd :Gdiff!<Enter>
