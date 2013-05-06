@@ -220,6 +220,8 @@ cnoremap <M-u> _
 cnoremap <M-l> -
 inoremap <M-r> <C-w>
 cnoremap <M-r> <C-w>
+set t_xy=
+inoremap <t_xy> <C-w>
 
 " save C-U in undo
 inoremap <C-U> <C-G>u<C-U>
