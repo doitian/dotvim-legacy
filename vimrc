@@ -302,8 +302,8 @@ command! Sw w !sudo tee % >/dev/null
 nnoremap <leader><Space> za
 vnoremap <leader><Space> za
 
-" Strip all trailing whitespace from a file, using ,w
-nnoremap <leader>w :%s/\s\+$//<CR>:let @/=''<CR>
+" Strip all trailing whitespace from a file, using ,s
+nnoremap <leader>s :%s/\s\+$//<CR>:let @/=''<CR>
 
 " Run Ack fast
 let g:ackprg = 'ag --nogroup --nocolor --column'
@@ -322,8 +322,8 @@ nmap <leader>t vip<leader>t
 " Find file here
 
 cnoremap %% <C-R>=expand('%:h').'/'<cr>
-nmap <leader>e :e %%
-" CD HERE 
+nmap <leader>h :e %%
+" CD HERE
 command! -bang -nargs=? H cd %:h
 
 " }}}
