@@ -14,7 +14,8 @@ set statusline=%<%f%{fugitive#statusline()}\ %h%m%r%=%-14.(%l,%c%V%)\ %P
 
 if has("gui_running")
   if has("mac")
-    set guifont=Inconsolata:h16
+    set guifont=Inconsolata:h18
+    set background=dark
   else
     set guifont=Inconsolata\ 14
     set guioptions-=m
@@ -220,6 +221,12 @@ cnoremap <M-u> _
 cnoremap <M-l> -
 inoremap <M-r> <C-w>
 cnoremap <M-r> <C-w>
+inoremap <D-u> _
+inoremap <D-l> -
+cnoremap <D-u> _
+cnoremap <D-l> -
+inoremap <D-r> <C-w>
+cnoremap <D-r> <C-w>
 set t_xy=
 inoremap <t_xy> <C-w>
 cnoremap <t_xy> <C-w>

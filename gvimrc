@@ -1,7 +1,8 @@
-set guifont=Inconsolata:h16
+set guifont=Inconsolata:h18
 set guioptions-=T
 set guioptions-=r
 set guicursor+=a:blinkwait2000-blinkon1500
+set background=dark
 
 set ch=2		" Make command line two lines high
 
@@ -33,9 +34,9 @@ set hlsearch
 " Text below the last line is darker grey
 " Cursor is green, Cyan when ":lmap" mappings are active
 " Constants are not underlined but have a slightly lighter background
-highlight Normal guibg=grey90
-highlight Cursor guibg=Green guifg=NONE
-highlight lCursor guibg=Cyan guifg=NONE
-highlight NonText guibg=grey80
-highlight Constant gui=NONE guibg=grey95
-highlight Special gui=NONE guibg=grey95
+"highlight Normal guibg=grey90
+"highlight Cursor guibg=Green guifg=NONE
+"highlight lCursor guibg=Cyan guifg=NONE
+"highlight NonText guibg=grey80
+"highlight Constant gui=NONE guibg=grey95
+"highlight Special gui=NONE guibg=grey95
