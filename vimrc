@@ -10,7 +10,7 @@ let g:mapleader = ","
 
 " Theme {{{
 
-set statusline=%<%f%{fugitive#statusline()}\ %h%m%r%=%-14.(%l,%c%V%)\ %P
+" set statusline=%<%f%{fugitive#statusline()}\ %h%m%r%=%-14.(%l,%c%V%)\ %P
 
 if has("gui_running")
   if has("mac")
@@ -21,7 +21,7 @@ if has("gui_running")
     set guioptions-=m
   endif
 
-  colors zenburn
+  colors solarized
 
   " Remove toolbar, left scrollbar and right scrollbar
   set guioptions-=T
@@ -53,8 +53,13 @@ if has("gui_running")
   command! -bang -nargs=0 ScreenRecordMode call ScreenRecordMode()
 else
   set bg=dark
-  colors zenburn
+  colors solarized
 endif
+
+python from powerline.vim import setup as powerline_setup
+python powerline_setup()
+python del powerline_setup
+let g:Powerline_colorscheme='solarized256_dark'
 " }}}
 
 " Editing behaviour {{{

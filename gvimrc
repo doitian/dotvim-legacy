@@ -1,4 +1,5 @@
-set guifont=Inconsolata:h18
+set guifont=Inconsolata\ for\ Powerline:h18
+" set guifont=Source\ Code\ Pro\ for\ Powerline:h18
 set guioptions-=T
 set guioptions-=r
 set guicursor+=a:blinkwait2000-blinkon1500
