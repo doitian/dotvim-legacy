@@ -10,18 +10,17 @@ let g:mapleader = ","
 
 " Theme {{{
 
-" set statusline=%<%f%{fugitive#statusline()}\ %h%m%r%=%-14.(%l,%c%V%)\ %P
-
 if has("gui_running")
+  colors solarized
+
   if has("mac")
-    set guifont=Inconsolata:h18
+    set guifont=Inconsolata\ for\ Powerline:h18
     set background=dark
   else
     set guifont=Inconsolata\ 14
     set guioptions-=m
   endif
 
-  colors solarized
 
   " Remove toolbar, left scrollbar and right scrollbar
   set guioptions-=T
@@ -32,6 +31,7 @@ if has("gui_running")
 
   set guicursor+=a:blinkwait2000-blinkon1500 " blink slowly
   set mousehide		" Hide the mouse when typing text
+
   map <S-Insert> <MiddleMouse>
   map! <S-Insert> <MiddleMouse>
   let c_comment_strings=1
@@ -43,10 +43,18 @@ if has("gui_running")
   highlight Constant gui=NONE guibg=grey95
   highlight Special gui=NONE guibg=grey95
 
+  " Make shift-insert work like in Xterm
+  map <S-Insert> <MiddleMouse>
+  map! <S-Insert> <MiddleMouse>
+
   " Screen recording mode
   function! ScreenRecordMode()
     set columns=86
-    set guifont=Inconsolata:h14
+    if has("mac")
+      set guifont=Inconsolata\ for\ Powerline:h18
+    else
+      set guifont=Inconsolata\ 14
+    endif
     set cmdheight=1
     "colorscheme molokai_deep
   endfunction
@@ -55,6 +63,8 @@ else
   set bg=dark
   colors solarized
 endif
+
+set statusline=%<%f%{fugitive#statusline()}\ %h%m%r%=%-14.(%l,%c%V%)\ %P
 
 python from powerline.vim import setup as powerline_setup
 python powerline_setup()
