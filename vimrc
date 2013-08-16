@@ -34,6 +34,7 @@ Bundle 'kien/ctrlp.vim'
 Bundle 'tpope/vim-endwise'
 Bundle 'slim-template/vim-slim'
 Bundle 'derekwyatt/vim-scala'
+Bundle 'junegunn/vim-easy-align'
 
 Bundle 'taglist.vim'
 Bundle 'scratch'
@@ -457,9 +458,11 @@ let g:ctrlp_map = '<leader>,'
 nnoremap <leader>gd :Gdiff!<Enter>
 nnoremap <leader>gs :Gstatus<Enter>
 nnoremap <leader>gl :Glog<Enter>
-nnoremap <leader>ga :Git add %<CR><CR>
-nnoremap <leader>gc :Gcommit<Enter>
-nnoremap <leader>gC :Gcommit -v<Enter>
+nnoremap <leader>ga :git add %<cr><cr>
+nnoremap <leader>gc :gcommit<enter>
+nnoremap <leader>gc :gcommit -v<enter>
+
+vnoremap <silent> <Enter> :EasyAlign<cr>
 
 " }}}
 
