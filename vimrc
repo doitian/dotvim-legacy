@@ -3,7 +3,44 @@ if v:progname =~? "evim"
 endif
 
 set nocompatible
-call pathogen#infect()
+set rtp+=~/.vim/bundle/vundle/
+call vundle#rc()
+
+Bundle 'gmarik/vundle'
+
+Bundle 'scrooloose/nerdtree'
+Bundle 'chrismetcalf/vim-yankring'
+Bundle 'tpope/vim-markdown'
+Bundle 'tpope/vim-fugitive'
+Bundle 'tpope/vim-abolish'
+Bundle 'tpope/vim-repeat'
+Bundle 'tpope/vim-surround'
+Bundle 'bkad/CamelCaseMotion'
+Bundle 'michaeljsmith/vim-indent-object'
+Bundle 'nelstrom/vim-textobj-rubyblock'
+Bundle 'kana/vim-textobj-user'
+Bundle 'tomtom/tcomment_vim'
+Bundle 'vim-ruby/vim-ruby'
+Bundle 'tsaleh/vim-matchit'
+Bundle 'scrooloose/snipmate-snippets'
+Bundle 'msanders/snipmate.vim'
+Bundle 'tpope/vim-git'
+Bundle 'tpope/vim-rails'
+Bundle 'kchmck/vim-coffee-script'
+Bundle 'mileszs/ack.vim'
+Bundle 'kikijump/tslime.vim'
+Bundle 'sickill/vim-pasta'
+Bundle 'kien/ctrlp.vim'
+Bundle 'tpope/vim-endwise'
+Bundle 'slim-template/vim-slim'
+Bundle 'derekwyatt/vim-scala'
+
+Bundle 'taglist.vim'
+Bundle 'scratch'
+Bundle 'Gundo'
+Bundle 'argtextobj.vim'
+Bundle 'Gist.vim'
+Bundle 'bufexplorer.zip'
 
 let mapleader = ","
 let g:mapleader = ","
@@ -227,6 +264,8 @@ nmap <silent> <leader>c /^\(<\\|=\\|>\)\{7\}\([^=].\+\)\?$<CR>
 " Shortcut mappings {{{
 
 nnoremap ; :
+nnoremap <leader>; ;
+nnoremap <leader>: ,
 nnoremap <leader>X :nmap ,x :w\\|!<Space><C-v><CR<C-v>><Left><Left><Left><Left><Left>
 
 " insert underscore and dash
@@ -508,4 +547,3 @@ function! PulseCursorLine()
 endfunction
 
 " }}}
-
