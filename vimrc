@@ -27,7 +27,7 @@ Bundle 'msanders/snipmate.vim'
 Bundle 'tpope/vim-git'
 Bundle 'tpope/vim-rails'
 Bundle 'kchmck/vim-coffee-script'
-Bundle 'mileszs/ack.vim'
+Bundle 'rking/ag.vim'
 Bundle 'kikijump/tslime.vim'
 Bundle 'sickill/vim-pasta'
 Bundle 'kien/ctrlp.vim'
@@ -338,9 +338,7 @@ vnoremap <leader><Space> za
 " Strip all trailing whitespace from a file, using ,s
 nnoremap <leader>s :%s/\s\+$//<CR>:let @/=''<CR>
 
-" Run Ack fast
-let g:ackprg = 'ag --nogroup --nocolor --column'
-nnoremap <leader>a :Ack<Space>
+nnoremap <leader>a :Ag<Space>
 
 " Reselect text that was just pasted with ,v
 nnoremap <leader>v V`]
@@ -366,6 +364,8 @@ nnoremap <leader>gl :Glog<Enter>
 nnoremap <leader>ga :git add %<cr><cr>
 nnoremap <leader>gc :gcommit<enter>
 nnoremap <leader>gc :gcommit -v<enter>
+
+map <silent> <leader>V :source ~/.vimrc<CR>:filetype detect<CR>:exe ":echo 'vimrc reloaded'"<CR>
 " }}}
 " Filetype specific handling {{{
 filetype indent plugin on
