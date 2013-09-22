@@ -9,7 +9,7 @@ call vundle#rc()
 Bundle 'gmarik/vundle'
 
 Bundle 'scrooloose/nerdtree'
-Bundle 'chrismetcalf/vim-yankring'
+Bundle 'vim-scripts/YankRing.vim'
 Bundle 'tpope/vim-markdown'
 Bundle 'tpope/vim-fugitive'
 Bundle 'tpope/vim-abolish'
@@ -136,46 +136,6 @@ if !exists(":DiffOrig")
     \ | wincmd p | diffthis
 endif
 
-function! PulseCursorLine()
-    let current_window = winnr()
-
-    windo set nocursorline
-    execute current_window . 'wincmd w'
-
-    setlocal cursorline
-
-    redir => old_hi
-        silent execute 'hi cursorline'
-    redir end
-    let old_hi = split(old_hi, '\n')[0]
-    let old_hi = substitute(old_hi, 'xxx', '', '')
-
-    hi cursorline guibg=#2a2a2a
-    redraw
-    sleep 5m
-
-    hi cursorline guibg=#3a3a3a
-    redraw
-    sleep 5m
-
-    hi cursorline guibg=#4a4a4a
-    redraw
-    sleep 5m
-
-    hi CursorLine guibg=#3a3a3a
-    redraw
-    sleep 5m
-
-    hi CursorLine guibg=#2a2a2a
-    redraw
-    sleep 5m
-
-    execute 'hi ' . old_hi
-
-    windo set cursorline
-    execute current_window . 'wincmd w'
-endfunction
-
 command! -bang -nargs=? H cd %:h
 command! Sw w !sudo tee % >/dev/null
 command! NT NERDTree
@@ -294,11 +254,6 @@ imap <C-l> <C-x><C-l>
 " Quick yanking to the end of the line
 nmap Y y$
 
-" Keep search matches in the middle of the window and pulse the line when moving
-" to them.
-nnoremap <silent> n n:call PulseCursorLine()<cr>
-nnoremap <silent> N N:call PulseCursorLine()<cr>
-
 cnoremap %% <C-R>=expand('%:h').'/'<cr>
 vnoremap <silent> <Enter> :EasyAlign<cr>
 
@@ -317,10 +272,10 @@ nmap <silent> <leader>d "_d
 vmap <silent> <leader>d "_d
 
 " Yank/paste to the OS clipboard with ,y and ,p
-nmap <leader>y "+y
-nmap <leader>Y "+yy
-nmap <leader>p "+p
-nmap <leader>P "+P
+nmap <leader>y "*y
+nmap <leader>Y "*yy
+nmap <leader>p "*p
+nmap <leader>P "*P
 
 nmap <leader>r :YRShow<CR>
 
