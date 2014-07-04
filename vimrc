@@ -11,36 +11,22 @@ Bundle 'gmarik/vundle'
 Bundle 'scrooloose/nerdtree'
 Bundle 'vim-scripts/YankRing.vim'
 Bundle 'tpope/vim-markdown'
-Bundle 'tpope/vim-fugitive'
-Bundle 'tpope/vim-abolish'
 Bundle 'tpope/vim-repeat'
 Bundle 'tpope/vim-surround'
 Bundle 'bkad/CamelCaseMotion'
-Bundle 'michaeljsmith/vim-indent-object'
-Bundle 'nelstrom/vim-textobj-rubyblock'
 Bundle 'kana/vim-textobj-user'
 Bundle 'tomtom/tcomment_vim'
 Bundle 'vim-ruby/vim-ruby'
 Bundle 'tsaleh/vim-matchit'
-Bundle 'scrooloose/snipmate-snippets'
-Bundle 'msanders/snipmate.vim'
-Bundle 'tpope/vim-git'
-Bundle 'tpope/vim-rails'
 Bundle 'kchmck/vim-coffee-script'
 Bundle 'rking/ag.vim'
 Bundle 'kikijump/tslime.vim'
 Bundle 'sickill/vim-pasta'
 Bundle 'kien/ctrlp.vim'
-Bundle 'tpope/vim-endwise'
 Bundle 'slim-template/vim-slim'
-Bundle 'derekwyatt/vim-scala'
 Bundle 'junegunn/vim-easy-align'
-
 Bundle 'taglist.vim'
-Bundle 'scratch'
 Bundle 'Gundo'
-Bundle 'argtextobj.vim'
-Bundle 'Gist.vim'
 Bundle 'bufexplorer.zip'
 "}}}
 " Theme {{{
@@ -100,7 +86,7 @@ let Tlist_Use_Right_Window=1
 
 let g:snippets_dir=expand("$HOME/.vim/snippets")
 
-let g:ctrlp_root_markers = ['.eproject']
+let g:ctrlp_root_markers = ['.git', '.projectile']
 let g:ctrlp_map = '<leader>,'
 " }}}
 " Functions & Commands {{{
@@ -238,9 +224,6 @@ nmap Q gqap
 " make p in Visual mode replace the selected text with the yank register
 vnoremap p <Esc>:let current_reg = @"<CR>gvdi<C-R>=current_reg<CR><Esc>
 
-" Shortcut to make
-nmap mk :make<CR>
-
 " Easy window navigation
 map <C-h> <C-w>h
 map <C-j> <C-w>j
@@ -282,10 +265,6 @@ nmap <leader>r :YRShow<CR>
 " Clears the search register
 nmap <silent> <leader>/ :nohlsearch<CR>
 
-" Pull word under cursor into LHS of a substitute (for quick search and
-" replace)
-nmap <leader>z :%s#\<<C-r>=expand("<cword>")<CR>\>#
-
 " Folding
 nnoremap <leader><Space> za
 vnoremap <leader><Space> za
@@ -312,13 +291,6 @@ nmap <leader>n :NERDTreeToggle<CR>
 nmap <leader>N :NERDTreeFind<CR>
 
 nmap <leader>l :TlistToggle<CR>
-
-nnoremap <leader>gd :Gdiff!<Enter>
-nnoremap <leader>gs :Gstatus<Enter>
-nnoremap <leader>gl :Glog<Enter>
-nnoremap <leader>ga :git add %<cr><cr>
-nnoremap <leader>gc :gcommit<enter>
-nnoremap <leader>gc :gcommit -v<enter>
 
 map <silent> <leader>V :source ~/.vimrc<CR>:filetype detect<CR>:exe ":echo 'vimrc reloaded'"<CR>
 " }}}
