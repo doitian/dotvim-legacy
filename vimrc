@@ -51,12 +51,14 @@ if has("gui_running")
   let c_comment_strings=1
 endif
 
-set statusline=%<%f%{fugitive#statusline()}\ %h%m%r%=%-14.(%l,%c%V%)\ %P
+set statusline=%<%f\ %h%m%r%=%-14.(%l,%c%V%)\ %P
 
-python from powerline.vim import setup as powerline_setup
-python powerline_setup()
-python del powerline_setup
-let g:Powerline_colorscheme='solarized256_dark'
+if filereadable("~/.powerline")
+  python from powerline.vim import setup as powerline_setup
+  python powerline_setup()
+  python del powerline_setup
+  let g:Powerline_colorscheme='solarized256_dark'
+endif
 
 if &t_Co > 2 || has("gui_running")
    syntax on
