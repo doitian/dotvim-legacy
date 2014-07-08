@@ -28,6 +28,7 @@ Bundle 'junegunn/vim-easy-align'
 Bundle 'taglist.vim'
 Bundle 'Gundo'
 Bundle 'bufexplorer.zip'
+Bundle 'edkolev/erlang-motions.vim'
 "}}}
 " Theme {{{
 colors solarized
