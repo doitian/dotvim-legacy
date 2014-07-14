@@ -27,6 +27,7 @@ Bundle 'junegunn/vim-easy-align'
 Bundle 'taglist.vim'
 Bundle 'Gundo'
 Bundle 'bufexplorer.zip'
+Bundle 'edkolev/erlang-motions.vim'
 "}}}
 " Theme {{{
 colors solarized
@@ -197,16 +198,8 @@ nnoremap <C-e> 2<C-e>
 nnoremap <C-y> 2<C-y>
 
 " insert underscore and dash
-inoremap <M-u> _
-inoremap <M-l> -
-cnoremap <M-u> _
-cnoremap <M-l> -
 inoremap <M-r> <C-w>
 cnoremap <M-r> <C-w>
-inoremap <D-u> _
-inoremap <D-l> -
-cnoremap <D-u> _
-cnoremap <D-l> -
 inoremap <D-r> <C-w>
 cnoremap <D-r> <C-w>
 set t_xy=
