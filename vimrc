@@ -264,6 +264,7 @@ vmap <silent> <leader>d "_d
 " Yank/paste to the OS clipboard with ,y and ,p
 nmap <leader>y "*y
 nmap <leader>Y "*yy
+vmap <leader>y "*y
 nmap <leader>p "*p
 nmap <leader>P "*P
 
