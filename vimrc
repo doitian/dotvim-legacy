@@ -27,6 +27,7 @@ Bundle 'taglist.vim'
 Bundle 'Gundo'
 Bundle 'bufexplorer.zip'
 Bundle 'edkolev/erlang-motions.vim'
+Bundle 'elixir-lang/vim-elixir'
 
 " Theme 
 colors solarized
