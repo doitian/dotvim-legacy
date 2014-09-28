@@ -28,6 +28,7 @@ Bundle 'Gundo'
 Bundle 'bufexplorer.zip'
 Bundle 'edkolev/erlang-motions.vim'
 Bundle 'elixir-lang/vim-elixir'
+Bundle 'zerowidth/vim-copy-as-rtf'
 
 " Theme 
 colors solarized
@@ -53,7 +54,7 @@ endif
 
 set statusline=%<%f\ %h%m%r%=%-14.(%l,%c%V%)\ %P
 
-if filereadable("~/.powerline")
+if filereadable(expand("~/.powerline/setup.py"))
   python from powerline.vim import setup as powerline_setup
   python powerline_setup()
   python del powerline_setup
