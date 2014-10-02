@@ -28,7 +28,8 @@ Bundle 'Gundo'
 Bundle 'bufexplorer.zip'
 Bundle 'edkolev/erlang-motions.vim'
 Bundle 'elixir-lang/vim-elixir'
-Bundle 'zerowidth/vim-copy-as-rtf'
+Bundle 'scrooloose/syntastic'
+Bundle 'terryma/vim-multiple-cursors'
 
 " Theme 
 colors solarized
@@ -99,6 +100,21 @@ function! QFixToggle(forced)
   else
     copen 10
     let g:qfix_win = bufnr("$")
+  endif
+endfunction
+
+command! -bang -nargs=? SyntasticNext call SyntasticNext(<bang>0)
+function! SyntasticNext(forced)
+  if g:SyntasticLoclist.current().isEmpty() || a:forced != 0
+    write
+    SyntasticCheck
+    Errors
+    if !g:SyntasticLoclist.current().isEmpty()
+      lopen 10
+      ll
+    endif
+  else
+    lnext
   endif
 endfunction
 
@@ -255,6 +271,7 @@ nmap <silent> <leader>c /^\(<\\|=\\|>\)\{7\}\([^=].\+\)\?$<CR>
 nnoremap <leader>; ;
 nnoremap <leader>: ,
 nnoremap <leader>X :nmap ,x :w\\|!<Space><C-v><CR<C-v>><Left><Left><Left><Left><Left>
+nnoremap <leader>x :nmap ,x :w\\|!<Space><C-v><CR<C-v>><Left><Left><Left><Left><Left>
 
 " Tame the quickfix window (open/close using ,q)
 nmap <silent> <leader>q :QFix<CR>
@@ -280,7 +297,7 @@ nnoremap <leader><Space> za
 vnoremap <leader><Space> za
 
 " Strip all trailing whitespace from a file, using ,s
-nnoremap <leader>s :%s/\s\+$//<CR>:let @/=''<CR>
+nnoremap <leader>w :%s/\s\+$//<CR>:let @/=''<CR>
 
 nnoremap <leader>a :Ag<Space>
 
@@ -289,6 +306,15 @@ nnoremap <leader>v V`]
 
 " Gundo.vim
 nnoremap <leader>u :GundoToggle<CR>
+
+" syntastic
+nnoremap <leader>f :cnext<CR>
+nnoremap <leader>s :SyntasticNext<CR>
+nnoremap <leader>S :SyntasticNext!<CR>
+let g:syntastic_mode_map = { "mode": "passive",
+                           \ "active_filetypes": [],
+                           \ "passive_filetypes": [] }
+let g:syntastic_auto_loc_list = 1
 
 " Find file here
 nmap <leader>h :e %%
