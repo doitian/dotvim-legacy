@@ -2,7 +2,7 @@ if v:progname =~? "evim"
   finish
 endif
 
-" Vundle 
+" Vundle
 set nocompatible
 set rtp+=~/.vim/bundle/vundle/
 call vundle#rc()
@@ -30,8 +30,11 @@ Bundle 'edkolev/erlang-motions.vim'
 Bundle 'elixir-lang/vim-elixir'
 Bundle 'scrooloose/syntastic'
 Bundle 'terryma/vim-multiple-cursors'
+Bundle 'editorconfig/editorconfig-vim'
+" Bundle 'SirVer/ultisnips'
+" Bundle 'honza/vim-snippets'
 
-" Theme 
+" Theme
 colors solarized
 set bg=dark
 if has("gui_running")
@@ -66,8 +69,8 @@ if &t_Co > 2 || has("gui_running")
    syntax on
 endif
 match ErrorMsg '^\(<\|=\|>\)\{7\}\([^=].\+\)\?$'
-" 
-" Plugins 
+
+" Plugins
 let g:yankring_history_dir = '$HOME/.vim/.tmp'
 
 let NERDTreeBookmarksFile=expand("$HOME/.vim/NERDTreeBookmarks")
@@ -90,8 +93,17 @@ let Tlist_Use_Right_Window=1
 
 let g:ctrlp_root_markers = ['.git', '.projectile']
 let g:ctrlp_map = '<leader>,'
-" 
-" Functions & Commands 
+let g:ctrlp_user_command = {
+  \ 'types': {
+    \ 1: ['.git', 'cd %s && git ls-files'],
+    \ },
+  \ 'fallback': 'find %s -type f'
+  \ }
+let g:ctrlp_custom_ignore = {
+  \ 'dir':  '\v[\/](\.(git|hg|svn)|_build)$',
+  \ }
+
+" Functions & Commands
 command! -bang -nargs=? QFix call QFixToggle(<bang>0)
 function! QFixToggle(forced)
   if exists("g:qfix_win") && a:forced == 0
@@ -148,13 +160,9 @@ command! -nargs=1 TmuxArgs let s:tmux_args=<q-args>
 command! -nargs=1 TmuxSend :call system("tmux send-keys " . s:tmux_args . " " . shellescape(<q-args>) . " C-j")
 command! -nargs=1 TmuxSetBuffer :call system("tmux set-buffer " . shellescape(<q-args>))
 
-nmap <leader>t :TmuxSend<space>
-nmap <leader>T :TmuxArgs -t<space>
-nmap <leader>[ :TmuxSetBuffer<space>
-vnoremap <leader>[ y:TmuxSetBuffer <C-R>"
+command! MMix :set makeprg=mix\ test
 
-" 
-" Config 
+" Config
 set tabstop=4
 set softtabstop=4
 set expandtab
@@ -208,17 +216,23 @@ set backupdir=~/.vim/backup
 set viminfo='20,\"80
 set wildmenu
 set wildmode=list,full
-set wildignore=*.swp,*.bak,*.pyc,*.class
+set wildignore=*.swp,*.bak,*.pyc,*.class,*.beam
 set title
 set visualbell
 set noerrorbells
 set nomodeline
 set cursorline
 set ruler
-" 
-" Shortcut mappings 
+
+" Shortcut mappings
 let mapleader = ","
 let g:mapleader = ","
+
+nnoremap <leader>t :TmuxSend<space>
+nnoremap <leader>T :TmuxArgs -t<space>
+nnoremap <leader>[ :TmuxSetBuffer<space>
+vnoremap <leader>[ y:TmuxSetBuffer <C-R>"
+
 nnoremap ; :
 nnoremap <C-e> 2<C-e>
 nnoremap <C-y> 2<C-y>
@@ -308,7 +322,8 @@ nnoremap <leader>v V`]
 nnoremap <leader>u :GundoToggle<CR>
 
 " syntastic
-nnoremap <leader>f :cnext<CR>
+nnoremap <leader>m :cnext<CR>
+nnoremap <leader>M :make<CR>
 nnoremap <leader>s :SyntasticNext<CR>
 nnoremap <leader>S :SyntasticNext!<CR>
 let g:syntastic_mode_map = { "mode": "passive",
@@ -325,37 +340,41 @@ nmap <leader>N :NERDTreeFind<CR>
 nmap <leader>l :TlistToggle<CR>
 
 map <silent> <leader>V :source ~/.vimrc<CR>:filetype detect<CR>:exe ":echo 'vimrc reloaded'"<CR>
-" 
-" Filetype specific handling 
+
+" Filetype specific handling
 filetype indent plugin on
-augroup invisible_chars 
+augroup invisible_chars
   au!
 
   " Show invisible characters in all of these files
   autocmd filetype vim setlocal list
   autocmd filetype ruby setlocal list
   autocmd filetype javascript,css setlocal list
-augroup end 
+augroup end
 
-augroup yaml_header_matters 
+augroup yaml_header_matters
   au!
 
   autocmd filetype markdown syntax region frontmatter start=/\%^---$/ end=/^---$/
   autocmd filetype markdown highlight link frontmatter Comment
-augroup end 
+augroup end
 
-augroup restore_position 
+augroup restore_position
   au!
   autocmd FileType text setlocal textwidth=78
   autocmd BufReadPost *
     \ if line("'\"") > 1 && line("'\"") <= line("$") |
     \   exe "normal! g`\"" |
     \ endif
-augroup END 
+augroup END
 
-augroup javascript_ft 
+augroup javascript_ft
   au!
 
   autocmd BufNewFile,BufRead *.json set ft=javascript
-augroup END 
-" 
+augroup END
+
+augroup gitcommit
+  au!
+  au FileType gitcommit 1 | startinsert
+augroup END
