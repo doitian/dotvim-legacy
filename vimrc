@@ -34,6 +34,7 @@ Bundle 'terryma/vim-multiple-cursors'
 Bundle 'editorconfig/editorconfig-vim'
 Bundle 'amiorin/ctrlp-z'
 Bundle 'Lokaltog/powerline', {'rtp': 'powerline/bindings/vim/'}
+Bundle 'thinca/vim-visualstar'
 " Bundle 'SirVer/ultisnips'
 " Bundle 'honza/vim-snippets
 
@@ -325,8 +326,6 @@ nmap <leader>Y "*yy
 vmap <leader>y "*y
 
 " search word under cursor
-nmap <leader>z /<C-r><C-w>
-nmap <leader>Z /<C-r><C-a>
 vnoremap <leader>z y/<C-r>"
 
 nnoremap <leader>; ;
