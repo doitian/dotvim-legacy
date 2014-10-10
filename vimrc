@@ -31,8 +31,10 @@ Bundle 'elixir-lang/vim-elixir'
 Bundle 'scrooloose/syntastic'
 Bundle 'terryma/vim-multiple-cursors'
 Bundle 'editorconfig/editorconfig-vim'
+Bundle 'amiorin/ctrlp-z'
+Bundle 'Lokaltog/powerline', {'rtp': 'powerline/bindings/vim/'}
 " Bundle 'SirVer/ultisnips'
-" Bundle 'honza/vim-snippets'
+" Bundle 'honza/vim-snippets
 
 " Theme
 colors solarized
@@ -58,12 +60,7 @@ endif
 
 set statusline=%<%f\ %h%m%r%=%-14.(%l,%c%V%)\ %P
 
-if filereadable(expand("~/.powerline/setup.py"))
-  python from powerline.vim import setup as powerline_setup
-  python powerline_setup()
-  python del powerline_setup
-  let g:Powerline_colorscheme='solarized256_dark'
-endif
+let g:Powerline_colorscheme='solarized256_dark'
 
 if &t_Co > 2 || has("gui_running")
    syntax on
@@ -102,6 +99,8 @@ let g:ctrlp_user_command = {
 let g:ctrlp_custom_ignore = {
   \ 'dir':  '\v[\/](\.(git|hg|svn)|_build)$',
   \ }
+let g:ctrlp_z_nerdtree = 1
+let g:ctrlp_extensions = ['Z', 'F']
 
 " Functions & Commands
 command! -bang -nargs=? QFix call QFixToggle(<bang>0)
@@ -160,6 +159,8 @@ command! -nargs=1 TmuxArgs let s:tmux_args=<q-args>
 command! -nargs=1 TmuxSend :call system("tmux send-keys " . s:tmux_args . " " . shellescape(<q-args>) . " C-j")
 command! -nargs=1 TmuxSetBuffer :call system("tmux set-buffer " . shellescape(<q-args>))
 
+command! Reload :source ~/.vimrc | :filetype detect
+
 command! MMix :set makeprg=mix\ test
 
 " Config
@@ -182,7 +183,7 @@ set hlsearch
 set incsearch
 set listchars=tab:▸\ ,trail:·,extends:#,nbsp:·
 set nolist
-set pastetoggle=<F2>
+set pastetoggle=<F12>
 set mouse=a
 set fileformats="unix,dos,mac"
 set formatoptions+=1
@@ -228,25 +229,9 @@ set ruler
 let mapleader = ","
 let g:mapleader = ","
 
-nnoremap <leader>t :TmuxSend<space>
-nnoremap <leader>T :TmuxArgs -t<space>
-nnoremap <leader>[ :TmuxSetBuffer<space>
-vnoremap <leader>[ y:TmuxSetBuffer <C-R>"
-
 nnoremap ; :
 nnoremap <C-e> 2<C-e>
 nnoremap <C-y> 2<C-y>
-
-" insert underscore and dash
-inoremap <M-r> <C-w>
-cnoremap <M-r> <C-w>
-inoremap <D-r> <C-w>
-cnoremap <D-r> <C-w>
-set t_xy=
-inoremap <t_xy> <C-w>
-cnoremap <t_xy> <C-w>
-" save C-U in undo
-inoremap <C-U> <C-G>u<C-U>
 
 " Avoid accidental hits of <F1> while aiming for <Esc>
 map! <F1> <Esc>
@@ -257,11 +242,6 @@ nmap Q gqap
 
 " make p in Visual mode replace the selected text with the yank register
 vnoremap p <Esc>:let current_reg = @"<CR>gvdi<C-R>=current_reg<CR><Esc>
-
-" search word under cursor
-nmap <leader>z /<C-r><C-w>
-nmap <leader>Z /<C-r><C-a>
-nmap <leader>o :vimgrep<Space><Space><C-v>%<Left><Left>
 
 " Easy window navigation
 map <C-h> <C-w>h
@@ -279,29 +259,77 @@ nmap Y y$
 cnoremap %% <C-R>=expand('%:h').'/'<cr>
 vnoremap <silent> <Enter> :EasyAlign<cr>
 
+noremap <silent> \be :BufExplorer<CR>
+noremap <silent> \bs :BufExplorerHorizontalSplit<CR>
+noremap <silent> \bv :BufExplorerVerticalSplit<CR>
+
+nnoremap <leader>a :Ag<Space>
+" b subword
+
 " shortcut to jump to next conflict marker
 nmap <silent> <leader>c /^\(<\\|=\\|>\)\{7\}\([^=].\+\)\?$<CR>
-
-nnoremap <leader>; ;
-nnoremap <leader>: ,
-nnoremap <leader>X :nmap ,x :w\\|!<Space><C-v><CR<C-v>><Left><Left><Left><Left><Left>
-nnoremap <leader>x :nmap ,x :w\\|!<Space><C-v><CR<C-v>><Left><Left><Left><Left><Left>
-
-" Tame the quickfix window (open/close using ,q)
-nmap <silent> <leader>q :QFix<CR>
 " Use ,d (or ,dd or ,dj or 20,dd) to delete a line without adding it to the
 " yanked stack (also, in visual mode)
 nmap <silent> <leader>d "_d
 vmap <silent> <leader>d "_d
 
-" Yank/paste to the OS clipboard with ,y and ,p
-nmap <leader>y "*y
-nmap <leader>Y "*yy
-vmap <leader>y "*y
+" e subword
+
+nnoremap <leader>f :SyntasticNext<CR>
+nnoremap <leader>F :SyntasticNext!<CR>
+
+nnoremap <silent> <leader>J :CtrlPF<CR>
+nnoremap <silent> <leader>j :CtrlPZ<CR>
+
+" Find file here
+nmap <leader>h :e %%
+
+nmap <leader>l :TlistToggle<CR>
+
+nnoremap <leader>m :cnext<CR>
+nnoremap <leader>M :make<CR>
+
+nmap <leader>n :NERDTreeToggle<CR>
+nmap <leader>N :NERDTreeFind<CR>
+
+nmap <leader>o :vimgrep<Space><Space><C-v>%<Left><Left>
+
 nmap <leader>p "*p
 nmap <leader>P "*P
 
+" Tame the quickfix window (open/close using ,q)
+nmap <silent> <leader>q :QFix<CR>
+
 nmap <leader>r :YRShow<CR>
+
+nnoremap <leader>s :%s/\s\+$//<CR>:let @/=''<CR>
+
+nnoremap <leader>t :TmuxSend<space>
+nnoremap <leader>T :TmuxArgs -t<space>
+nnoremap <leader>[ :TmuxSetBuffer<space>
+vnoremap <leader>[ y:TmuxSetBuffer <C-R>"
+
+nnoremap <leader>u :GundoToggle<CR>
+" Reselect text that was just pasted with ,v
+nnoremap <leader>v V`]
+
+" w subword
+" Strip all trailing whitespace from a file
+
+nnoremap <leader>X :nmap ,x :w\\|!<Space><C-v><CR<C-v>><Left><Left><Left><Left><Left>
+nnoremap <leader>x :nmap ,x :w\\|!<Space><C-v><CR<C-v>><Left><Left><Left><Left><Left>
+
+nmap <leader>y "*y
+nmap <leader>Y "*yy
+vmap <leader>y "*y
+
+" search word under cursor
+nmap <leader>z /<C-r><C-w>
+nmap <leader>Z /<C-r><C-a>
+vnoremap <leader>z y/<C-r>"
+
+nnoremap <leader>; ;
+nnoremap <leader>: ,
 
 " Clears the search register
 nmap <silent> <leader>/ :nohlsearch<CR>
@@ -310,36 +338,12 @@ nmap <silent> <leader>/ :nohlsearch<CR>
 nnoremap <leader><Space> za
 vnoremap <leader><Space> za
 
-" Strip all trailing whitespace from a file, using ,s
-nnoremap <leader>w :%s/\s\+$//<CR>:let @/=''<CR>
-
-nnoremap <leader>a :Ag<Space>
-
-" Reselect text that was just pasted with ,v
-nnoremap <leader>v V`]
-
-" Gundo.vim
-nnoremap <leader>u :GundoToggle<CR>
 
 " syntastic
-nnoremap <leader>m :cnext<CR>
-nnoremap <leader>M :make<CR>
-nnoremap <leader>s :SyntasticNext<CR>
-nnoremap <leader>S :SyntasticNext!<CR>
 let g:syntastic_mode_map = { "mode": "passive",
                            \ "active_filetypes": [],
                            \ "passive_filetypes": [] }
 let g:syntastic_auto_loc_list = 1
-
-" Find file here
-nmap <leader>h :e %%
-
-nmap <leader>n :NERDTreeToggle<CR>
-nmap <leader>N :NERDTreeFind<CR>
-
-nmap <leader>l :TlistToggle<CR>
-
-map <silent> <leader>V :source ~/.vimrc<CR>:filetype detect<CR>:exe ":echo 'vimrc reloaded'"<CR>
 
 " Filetype specific handling
 filetype indent plugin on
