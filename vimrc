@@ -41,7 +41,7 @@ colors solarized
 set bg=dark
 if has("gui_running")
   if has("mac")
-    set guifont=Inconsolata\ for\ Powerline:h18
+    set guifont=Source\ Code\ Pro\ Medium:h18
     set background=dark
   else
     set guifont=Inconsolata\ 14
