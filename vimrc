@@ -280,11 +280,14 @@ vmap <silent> <leader>d "_d
 nnoremap <leader>f :SyntasticNext<CR>
 nnoremap <leader>F :SyntasticNext!<CR>
 
-nnoremap <silent> <leader>J :CtrlPF<CR>
-nnoremap <silent> <leader>j :CtrlPZ<CR>
-
 " Find file here
 nmap <leader>h :e %%
+
+nnoremap <leader>i :CtrlPBufTag<CR>
+nnoremap <leader>I :CtrlPBufTagAll<CR>
+
+nnoremap <silent> <leader>J :CtrlPF<CR>
+nnoremap <silent> <leader>j :CtrlPZ<CR>
 
 nmap <leader>l :TlistToggle<CR>
 
@@ -300,11 +303,10 @@ nmap <leader>p "*p
 nmap <leader>P "*P
 
 " Tame the quickfix window (open/close using ,q)
-nmap <silent> <leader>q :QFix<CR>
+nmap <silent> <leader>Q :QFix<CR>
+nmap <leader>q :CtrlPQuickfix<CR>
 
 nmap <leader>r :YRShow<CR>
-
-nnoremap <leader>s :%s/\s\+$//<CR>:let @/=''<CR>
 
 nnoremap <leader>t :TmuxSend<space>
 nnoremap <leader>T :TmuxArgs -t<space>
@@ -326,18 +328,13 @@ nmap <leader>Y "*yy
 vmap <leader>y "*y
 
 " search word under cursor
-vnoremap <leader>z y/<C-r>"
-
 nnoremap <leader>; ;
 nnoremap <leader>: ,
 
+nnoremap <leader><Space> :%s/\s\+$//<CR>:let @/=''<CR>
+
 " Clears the search register
 nmap <silent> <leader>/ :nohlsearch<CR>
-
-" Folding
-nnoremap <leader><Space> za
-vnoremap <leader><Space> za
-
 
 " syntastic
 let g:syntastic_mode_map = { "mode": "passive",
