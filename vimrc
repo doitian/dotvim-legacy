@@ -30,11 +30,11 @@ Bundle 'bufexplorer.zip'
 Bundle 'edkolev/erlang-motions.vim'
 Bundle 'elixir-lang/vim-elixir'
 Bundle 'scrooloose/syntastic'
-Bundle 'terryma/vim-multiple-cursors'
 Bundle 'editorconfig/editorconfig-vim'
 Bundle 'amiorin/ctrlp-z'
 Bundle 'Lokaltog/powerline', {'rtp': 'powerline/bindings/vim/'}
 Bundle 'thinca/vim-visualstar'
+Bundle 'Lokaltog/vim-easymotion'
 " Bundle 'SirVer/ultisnips'
 " Bundle 'honza/vim-snippets
 
@@ -152,14 +152,35 @@ if !exists(":DiffOrig")
     \ | wincmd p | diffthis
 endif
 
-command! -bang -nargs=? H cd %:h
 command! Sw w !sudo tee % >/dev/null
 command! NT NERDTree
 
-let s:tmux_args=""
-command! -nargs=1 TmuxArgs let s:tmux_args=<q-args>
-command! -nargs=1 TmuxSend :call system("tmux send-keys " . s:tmux_args . " " . shellescape(<q-args>) . " C-j")
-command! -nargs=1 TmuxSetBuffer :call system("tmux set-buffer " . shellescape(<q-args>))
+let s:tmux_last_command=""
+let s:tmux_last_no_new_line=1
+function! TmuxSend(text, no_new_line)
+  if !exists("s:tmux_args")
+    let s:tmux_args = input("TmuxArgs ", "-t ")
+  end
+
+  if a:no_new_line
+    let l:newline = ""
+  else
+    let l:newline = " C-j"
+  end
+  let s:tmux_last_command = a:text
+  let s:tmux_last_no_new_line = a:no_new_line
+  " echo "tmux send-keys " . s:tmux_args . " " . shellescape(a:text) . l:newline
+  call system("tmux send-keys " . s:tmux_args . " " . shellescape(a:text) . l:newline)
+endfunction
+
+function! TmuxRepeat()
+  call TmuxSend(s:tmux_last_command, s:tmux_last_no_new_line)
+endfunction
+
+command! -bang -nargs=1 TmuxArgs let s:tmux_args=<q-args>
+command! -bang -nargs=1 TmuxSend :call TmuxSend(<q-args>, <bang>0)
+command! -bang TmuxRepat :call TmuxRepat()
+command! -bang -nargs=1 TmuxSetBuffer :call system("tmux set-buffer " . shellescape(<q-args>))
 
 command! Reload :source ~/.vimrc | :filetype detect
 
@@ -231,6 +252,8 @@ set ruler
 let mapleader = ","
 let g:mapleader = ","
 
+map <space> <Plug>(easymotion-prefix)
+
 nnoremap ; :
 nnoremap <C-e> 2<C-e>
 nnoremap <C-y> 2<C-y>
@@ -258,6 +281,17 @@ imap <C-l> <C-x><C-l>
 " Quick yanking to the end of the line
 nmap Y y$
 
+noremap gH H
+noremap gL L
+noremap gM M
+noremap H 0
+noremap L $
+noremap M ^
+
+inoremap <C-a> <Home>
+inoremap <C-e> <End>
+inoremap <C-y> <C-R>"
+
 cnoremap %% <C-R>=expand('%:h').'/'<cr>
 vnoremap <silent> <Enter> :EasyAlign<cr>
 
@@ -268,8 +302,8 @@ noremap <silent> \bv :BufExplorerVerticalSplit<CR>
 nnoremap <leader>a :Ag<Space>
 " b subword
 
-" shortcut to jump to next conflict marker
-nmap <silent> <leader>c /^\(<\\|=\\|>\)\{7\}\([^=].\+\)\?$<CR>
+nnoremap <silent> <leader>cd :cd %:h<CR>
+
 " Use ,d (or ,dd or ,dj or 20,dd) to delete a line without adding it to the
 " yanked stack (also, in visual mode)
 nmap <silent> <leader>d "_d
@@ -280,19 +314,24 @@ vmap <silent> <leader>d "_d
 nnoremap <leader>f :SyntasticNext<CR>
 nnoremap <leader>F :SyntasticNext!<CR>
 
+nnoremap <silent> <leader>gb :CtrlPBuffer<CR>
+nnoremap <silent> <leader>gh :CtrlPF<CR>
+nnoremap <silent> <leader>gd :CtrlPZ<CR>
+" shortcut to jump to next conflict marker
+nmap <silent> <leader>gc /^\(<\\|=\\|>\)\{7\}\([^=].\+\)\?$<CR>
+
 " Find file here
-nmap <leader>h :e %%
+nmap <leader>. :e %%
 
 nnoremap <leader>i :CtrlPBufTag<CR>
 nnoremap <leader>I :CtrlPBufTagAll<CR>
 
-nnoremap <silent> <leader>J :CtrlPF<CR>
-nnoremap <silent> <leader>j :CtrlPZ<CR>
-
 nmap <leader>l :TlistToggle<CR>
 
-nnoremap <leader>m :cnext<CR>
-nnoremap <leader>M :make<CR>
+nnoremap <silent> <leader>m :cnext<CR>
+nnoremap <silent> <leader>M :make<CR>
+nnoremap <silent> ]e :cnext<CR>
+nnoremap <silent> [e :cprevious<CR>
 
 nmap <leader>n :NERDTreeToggle<CR>
 nmap <leader>N :NERDTreeFind<CR>
@@ -308,10 +347,15 @@ nmap <leader>q :CtrlPQuickfix<CR>
 
 nmap <leader>r :YRShow<CR>
 
-nnoremap <leader>t :TmuxSend<space>
-nnoremap <leader>T :TmuxArgs -t<space>
-nnoremap <leader>[ :TmuxSetBuffer<space>
-vnoremap <leader>[ y:TmuxSetBuffer <C-R>"
+nnoremap <leader>ts :TmuxSend<space>
+nnoremap <leader>tS :TmuxSend!<space>
+nnoremap <leader>tt :call TmuxRepeat()<cr>
+nnoremap <leader>to :TmuxArgs -t<space>
+nnoremap <leader>tcd :TmuxSend cd <C-R>=expand('%:h').'/'<cr><cr>
+nnoremap <leader>tb :TmuxSetBuffer<space>
+vnoremap <leader>tb y:TmuxSetBuffer <C-R>"<cr>
+vnoremap <leader>ts y:TmuxSend <C-R>"<cr>
+vnoremap <leader>tS y:TmuxSend! <C-R>"<cr>
 
 nnoremap <leader>u :GundoToggle<CR>
 " Reselect text that was just pasted with ,v
