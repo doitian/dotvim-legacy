@@ -317,6 +317,7 @@ nnoremap <leader>F :SyntasticNext!<CR>
 nnoremap <silent> <leader>gb :CtrlPBuffer<CR>
 nnoremap <silent> <leader>gh :CtrlPF<CR>
 nnoremap <silent> <leader>gd :CtrlPZ<CR>
+nnoremap <silent> <leader>gf :e <C-R>=expand('%:h').'/'<cr><C-D>
 " shortcut to jump to next conflict marker
 nmap <silent> <leader>gc /^\(<\\|=\\|>\)\{7\}\([^=].\+\)\?$<CR>
 
@@ -351,7 +352,7 @@ nnoremap <leader>ts :TmuxSend<space>
 nnoremap <leader>tS :TmuxSend!<space>
 nnoremap <leader>tt :call TmuxRepeat()<cr>
 nnoremap <leader>to :TmuxArgs -t<space>
-nnoremap <leader>tcd :TmuxSend cd <C-R>=expand('%:h').'/'<cr><cr>
+nnoremap <leader>tcd :TmuxSend cd <C-R>=expand('%:p:h').'/'<cr><cr>
 nnoremap <leader>tb :TmuxSetBuffer<space>
 vnoremap <leader>tb y:TmuxSetBuffer <C-R>"<cr>
 vnoremap <leader>ts y:TmuxSend <C-R>"<cr>
