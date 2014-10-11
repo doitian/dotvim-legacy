@@ -1,44 +1,45 @@
 if v:progname =~? "evim"
   finish
 endif
-
-" Vundle
 set nocompatible
+
+"{{{ Vundle
 set rtp+=~/.vim/bundle/vundle/
 call vundle#rc()
-Bundle 'gmarik/vundle'
+Plugin 'gmarik/vundle'
 
-Bundle 'scrooloose/nerdtree'
-Bundle 'vim-scripts/YankRing.vim'
-Bundle 'tpope/vim-markdown'
-Bundle 'tpope/vim-repeat'
-Bundle 'tpope/vim-surround'
-Bundle 'bkad/CamelCaseMotion'
-Bundle 'kana/vim-textobj-user'
-Bundle 'kana/vim-textobj-indent'
-Bundle 'tomtom/tcomment_vim'
-Bundle 'vim-ruby/vim-ruby'
-Bundle 'kchmck/vim-coffee-script'
-Bundle 'rking/ag.vim'
-Bundle 'sickill/vim-pasta'
-Bundle 'kien/ctrlp.vim'
-Bundle 'slim-template/vim-slim'
-Bundle 'junegunn/vim-easy-align'
-Bundle 'taglist.vim'
-Bundle 'Gundo'
-Bundle 'bufexplorer.zip'
-Bundle 'edkolev/erlang-motions.vim'
-Bundle 'elixir-lang/vim-elixir'
-Bundle 'scrooloose/syntastic'
-Bundle 'editorconfig/editorconfig-vim'
-Bundle 'amiorin/ctrlp-z'
-Bundle 'Lokaltog/powerline', {'rtp': 'powerline/bindings/vim/'}
-Bundle 'thinca/vim-visualstar'
-Bundle 'Lokaltog/vim-easymotion'
-" Bundle 'SirVer/ultisnips'
-" Bundle 'honza/vim-snippets
+Plugin 'scrooloose/nerdtree'
+Plugin 'vim-scripts/YankRing.vim'
+Plugin 'tpope/vim-markdown'
+Plugin 'tpope/vim-repeat'
+Plugin 'tpope/vim-surround'
+Plugin 'bkad/CamelCaseMotion'
+Plugin 'kana/vim-textobj-user'
+Plugin 'kana/vim-textobj-indent'
+Plugin 'tomtom/tcomment_vim'
+Plugin 'vim-ruby/vim-ruby'
+Plugin 'kchmck/vim-coffee-script'
+Plugin 'rking/ag.vim'
+Plugin 'sickill/vim-pasta'
+Plugin 'kien/ctrlp.vim'
+Plugin 'slim-template/vim-slim'
+Plugin 'junegunn/vim-easy-align'
+Plugin 'taglist.vim'
+Plugin 'Gundo'
+Plugin 'bufexplorer.zip'
+Plugin 'edkolev/erlang-motions.vim'
+Plugin 'elixir-lang/vim-elixir'
+Plugin 'scrooloose/syntastic'
+Plugin 'editorconfig/editorconfig-vim'
+Plugin 'amiorin/ctrlp-z'
+Plugin 'Lokaltog/powerline', {'rtp': 'powerline/bindings/vim/'}
+Plugin 'thinca/vim-visualstar'
+Plugin 'Lokaltog/vim-easymotion'
+" Plugin 'SirVer/ultisnips'
+" Plugin 'honza/vim-snippets
+"}}}
 
-" Theme
+"{{{ Theme
 colors solarized
 set bg=dark
 if has("gui_running")
@@ -68,8 +69,9 @@ if &t_Co > 2 || has("gui_running")
    syntax on
 endif
 match ErrorMsg '^\(<\|=\|>\)\{7\}\([^=].\+\)\?$'
+"}}}
 
-" Plugins
+"{{{ Plugins Options
 let g:yankring_history_dir = '$HOME/.vim/.tmp'
 
 let NERDTreeBookmarksFile=expand("$HOME/.vim/NERDTreeBookmarks")
@@ -104,7 +106,14 @@ let g:ctrlp_custom_ignore = {
 let g:ctrlp_z_nerdtree = 1
 let g:ctrlp_extensions = ['Z', 'F']
 
-" Functions & Commands
+" syntastic
+let g:syntastic_mode_map = { "mode": "passive",
+                           \ "active_filetypes": [],
+                           \ "passive_filetypes": [] }
+let g:syntastic_auto_loc_list = 1
+"}}}
+
+"{{{ Functions & Commands
 command! -bang -nargs=? QFix call QFixToggle(<bang>0)
 function! QFixToggle(forced)
   if exists("g:qfix_win") && a:forced == 0
@@ -184,9 +193,10 @@ command! -bang -nargs=1 TmuxSetBuffer :call system("tmux set-buffer " . shellesc
 
 command! Reload :source ~/.vimrc | :filetype detect
 
-command! MMix :set makeprg=mix\ test
+command! MMix :let &mp = 'mix'
+"}}}
 
-" Config
+"{{{ Config
 set tabstop=4
 set softtabstop=4
 set expandtab
@@ -247,39 +257,42 @@ set noerrorbells
 set nomodeline
 set cursorline
 set ruler
+"}}}
 
-" Shortcut mappings
+"{{{ Shortcut mappings
 let mapleader = ","
 let g:mapleader = ","
+let maplocalleader = "\\"
+let g:maplocalleader = "\\"
 
-map <space> <Plug>(easymotion-prefix)
+" Avoid accidental hits of <F1> while aiming for <Esc>
+noremap! <F1> <Esc>
+
+noremap <space> <Plug>(easymotion-prefix)
 
 nnoremap ; :
 nnoremap <C-e> 2<C-e>
 nnoremap <C-y> 2<C-y>
 
-" Avoid accidental hits of <F1> while aiming for <Esc>
-map! <F1> <Esc>
-
 " Use Q for formatting the current paragraph (or visual selection)
-vmap Q gq
-nmap Q gqap
+vnoremap Q gq
+nnoremap Q gqap
 
 " make p in Visual mode replace the selected text with the yank register
 vnoremap p <Esc>:let current_reg = @"<CR>gvdi<C-R>=current_reg<CR><Esc>
 
 " Easy window navigation
-map <C-h> <C-w>h
-map <C-j> <C-w>j
-map <C-k> <C-w>k
-map <C-l> <C-w>l
+nnoremap <C-h> <C-w>h
+nnoremap <C-j> <C-w>j
+nnoremap <C-k> <C-w>k
+nnoremap <C-l> <C-w>l
 
 " Complete whole filenames/lines with a quicker shortcut key in insert mode
-imap <C-f> <C-x><C-f>
-imap <C-l> <C-x><C-l>
+inoremap <C-f> <C-x><C-f>
+inoremap <C-l> <C-x><C-l>
 
 " Quick yanking to the end of the line
-nmap Y y$
+nnoremap Y y$
 
 noremap gH H
 noremap gL L
@@ -292,61 +305,57 @@ inoremap <C-a> <Home>
 inoremap <C-e> <End>
 inoremap <C-y> <C-R>"
 
-cnoremap %% <C-R>=expand('%:h').'/'<cr>
 vnoremap <silent> <Enter> :EasyAlign<cr>
-
-noremap <silent> \be :BufExplorer<CR>
-noremap <silent> \bs :BufExplorerHorizontalSplit<CR>
-noremap <silent> \bv :BufExplorerVerticalSplit<CR>
 
 nnoremap <leader>a :Ag<Space>
 " b subword
 
 nnoremap <silent> <leader>cd :cd %:h<CR>
+nnoremap <silent> <leader>cc :bd<cr>
 
 " Use ,d (or ,dd or ,dj or 20,dd) to delete a line without adding it to the
 " yanked stack (also, in visual mode)
-nmap <silent> <leader>d "_d
-vmap <silent> <leader>d "_d
+nnoremap <silent> <leader>d "_d
+vnoremap <silent> <leader>d "_d
 
 " e subword
 
 nnoremap <leader>f :SyntasticNext<CR>
 nnoremap <leader>F :SyntasticNext!<CR>
 
+" shortcut to jump to next conflict marker
 nnoremap <silent> <leader>gb :CtrlPBuffer<CR>
 nnoremap <silent> <leader>gh :CtrlPF<CR>
 nnoremap <silent> <leader>gd :CtrlPZ<CR>
 nnoremap <silent> <leader>gf :e <C-R>=expand('%:h').'/'<cr><C-D>
-" shortcut to jump to next conflict marker
-nmap <silent> <leader>gc /^\(<\\|=\\|>\)\{7\}\([^=].\+\)\?$<CR>
-
-" Find file here
-nmap <leader>. :e %%
 
 nnoremap <leader>i :CtrlPBufTag<CR>
 nnoremap <leader>I :CtrlPBufTagAll<CR>
 
-nmap <leader>l :TlistToggle<CR>
+nnoremap <leader>lt :TlistToggle<CR>
+nnoremap <leader>ll :NERDTreeToggle<CR>
+nnoremap <leader>lf :NERDTreeFind<CR>
+noremap <silent> <leader>lbe :BufExplorer<CR>
+noremap <silent> <leader>lbs :BufExplorerHorizontalSplit<CR>
+noremap <silent> <leader>lbv :BufExplorerVerticalSplit<CR>
 
 nnoremap <silent> <leader>m :cnext<CR>
 nnoremap <silent> <leader>M :make<CR>
 nnoremap <silent> ]e :cnext<CR>
 nnoremap <silent> [e :cprevious<CR>
 
-nmap <leader>n :NERDTreeToggle<CR>
-nmap <leader>N :NERDTreeFind<CR>
+nnoremap <silent> <leader>n :nohlsearch<CR>
 
-nmap <leader>o :vimgrep<Space><Space><C-v>%<Left><Left>
+nnoremap <leader>o :vimgrep<Space><Space><C-v>%<Left><Left>
 
-nmap <leader>p "*p
-nmap <leader>P "*P
+nnoremap <leader>p "*p
+nnoremap <leader>P "*P
 
 " Tame the quickfix window (open/close using ,q)
-nmap <silent> <leader>Q :QFix<CR>
-nmap <leader>q :CtrlPQuickfix<CR>
+nnoremap <silent> <leader>Q :QFix<CR>
+nnoremap <leader>q :CtrlPQuickfix<CR>
 
-nmap <leader>r :YRShow<CR>
+nnoremap <leader>r :YRShow<CR>
 
 nnoremap <leader>ts :TmuxSend<space>
 nnoremap <leader>tS :TmuxSend!<space>
@@ -365,12 +374,19 @@ nnoremap <leader>v V`]
 " w subword
 " Strip all trailing whitespace from a file
 
-nnoremap <leader>X :nmap ,x :w\\|!<Space><C-v><CR<C-v>><Left><Left><Left><Left><Left>
-nnoremap <leader>x :nmap ,x :w\\|!<Space><C-v><CR<C-v>><Left><Left><Left><Left><Left>
+nnoremap <leader>X :nnoremap ,x :w\\|!<Space><C-v><CR<C-v>><Left><Left><Left><Left><Left>
+nnoremap <leader>x :nnoremap ,x :w\\|!<Space><C-v><CR<C-v>><Left><Left><Left><Left><Left>
+nnoremap <buffer> <localleader>X :nnoremap <buffer> <localleader>x :w\\|!<Space><C-v><CR<C-v>><Left><Left><Left><Left><Left>
+nnoremap <buffer> <localleader>x :nnoremap <buffer> <localleader>x :w\\|!<Space><C-v><CR<C-v>><Left><Left><Left><Left><Left>
 
-nmap <leader>y "*y
-nmap <leader>Y "*yy
-vmap <leader>y "*y
+nnoremap <leader>y "*y
+nnoremap <leader>Y "*yy
+vnoremap <leader>y "*y
+
+nnoremap <silent> <leader>/c /^\(<\\|=\\|>\)\{7\}\([^=].\+\)\?$<CR>
+nnoremap <silent> <leader>/t /\|.\{-}\|<CR>
+nnoremap <silent> <leader>// :nohlsearch<CR>
+
 
 " search word under cursor
 nnoremap <leader>; ;
@@ -378,16 +394,9 @@ nnoremap <leader>: ,
 
 nnoremap <leader><Space> :%s/\s\+$//<CR>:let @/=''<CR>
 
-" Clears the search register
-nmap <silent> <leader>/ :nohlsearch<CR>
+"}}}
 
-" syntastic
-let g:syntastic_mode_map = { "mode": "passive",
-                           \ "active_filetypes": [],
-                           \ "passive_filetypes": [] }
-let g:syntastic_auto_loc_list = 1
-
-" Filetype specific handling
+"{{{ Filetype specific handling
 filetype indent plugin on
 augroup invisible_chars
   au!
@@ -424,3 +433,4 @@ augroup gitcommit
   au!
   au FileType gitcommit 1 | startinsert
 augroup END
+"}}}
