@@ -20,7 +20,6 @@ Plugin 'tomtom/tcomment_vim'
 Plugin 'vim-ruby/vim-ruby'
 Plugin 'kchmck/vim-coffee-script'
 Plugin 'rking/ag.vim'
-Plugin 'sickill/vim-pasta'
 Plugin 'kien/ctrlp.vim'
 Plugin 'slim-template/vim-slim'
 Plugin 'junegunn/vim-easy-align'
@@ -82,7 +81,9 @@ let NERDTreeQuitOnOpen=1
 let NERDTreeHighlightCursorline=1
 let NERDTreeMouseMode=2
 let NERDTreeIgnore=[ '\.pyc$', '\.pyo$', '\.py\$class$', '\.obj$',
-            \ '\.o$', '\.so$', '\.egg$', '^\.git$', '^__pycache__$' ]
+            \ '\.o$', '\.so$', '\.egg$', '^\.git$', '^__pycache__$',
+            \ '\.sublime-project$', '\.sublime-workspace$']
+
 
 let Tlist_Exit_OnlyWindow=1
 let Tlist_GainFocus_On_ToggleOpen=1
@@ -268,7 +269,7 @@ let g:maplocalleader = "\\"
 " Avoid accidental hits of <F1> while aiming for <Esc>
 noremap! <F1> <Esc>
 
-noremap <space> <Plug>(easymotion-prefix)
+map <space> <Plug>(easymotion-prefix)
 
 nnoremap ; :
 nnoremap <C-e> 2<C-e>
@@ -328,6 +329,7 @@ nnoremap <silent> <leader>gb :CtrlPBuffer<CR>
 nnoremap <silent> <leader>gh :CtrlPF<CR>
 nnoremap <silent> <leader>gd :CtrlPZ<CR>
 nnoremap <silent> <leader>gf :e <C-R>=expand('%:h').'/'<cr><C-D>
+nnoremap <silent> <leader>go :vimgrep<Space><Space><C-v>%<Left><Left>
 
 nnoremap <leader>i :CtrlPBufTag<CR>
 nnoremap <leader>I :CtrlPBufTagAll<CR>
@@ -346,7 +348,10 @@ nnoremap <silent> [e :cprevious<CR>
 
 nnoremap <silent> <leader>n :nohlsearch<CR>
 
-nnoremap <leader>o :vimgrep<Space><Space><C-v>%<Left><Left>
+nnoremap <silent> <leader>ot :exe "silent !open -a 'Terminal.app' " . shellescape(expand('%:h')) . " &> /dev/null" \| :redraw!<cr>
+nnoremap <silent> <leader>of :exe "silent !open -R " . shellescape(expand('%')) . " &> /dev/null" \| :redraw!<cr>
+nnoremap <silent> <leader>om :exe "silent !open -a 'Marked 2.app' " . shellescape(expand('%')) . " &> /dev/null" \| :redraw!<cr>
+nnoremap <silent> <leader>oM :exe "silent !open -a 'Marked 2.app' " . shellescape(expand('%:h')) . " &> /dev/null" \| :redraw!<cr>
 
 nnoremap <leader>p "*p
 nnoremap <leader>P "*P

@@ -1,3 +1,4 @@
 /backup/*
 /bundle/*
 !/bundle/vundle
+/NERDTreeBookmarks
