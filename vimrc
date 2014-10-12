@@ -393,7 +393,6 @@ nnoremap <leader>u :GundoToggle<CR>
 nnoremap <leader>v V`]
 
 " w subword
-" Strip all trailing whitespace from a file
 
 nnoremap <leader>X :nnoremap ,x :w\\|!<Space><C-v><CR<C-v>><Left><Left><Left><Left><Left>
 nnoremap <leader>x :nnoremap ,x :w\\|!<Space><C-v><CR<C-v>><Left><Left><Left><Left><Left>
@@ -413,6 +412,7 @@ nnoremap <silent> <leader>// :nohlsearch<CR>
 nnoremap <leader>; ;
 nnoremap <leader>: ,
 
+" Strip all trailing whitespace from a file
 nnoremap <leader><Space> :%s/\s\+$//<CR>:let @/=''<CR>
 
 "}}}
