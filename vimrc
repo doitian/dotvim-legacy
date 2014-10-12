@@ -95,15 +95,15 @@ let Tlist_Display_Prototype=1
 let Tlist_Display_Tag_Scope=0
 let Tlist_Use_Right_Window=1
 
-let g:ctrlp_root_markers = ['.git', '.projectile']
+let g:ctrlp_root_markers = ['.git', '.svn', '.projectile']
 let g:ctrlp_map = '<leader>,'
-let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
-" let g:ctrlp_user_command = {
-"   \ 'types': {
-"     \ 1: ['.git', 'cd %s && git ls-files'],
-"     \ },
-"   \ 'fallback': 'ag %s -l --nocolor -g ""'
-"   \ }
+let g:ctrlp_user_command = {
+  \ 'types': {
+    \ 1: ['.git', 'cd %s && git ls-files -co --exclude-standard'],
+    \ 2: ['.svn', 'cd %s && svn list -R . | grep -v "/$"'],
+    \ },
+  \ 'fallback': 'ag %s -l --nocolor -g ""'
+  \ }
 let g:ctrlp_custom_ignore = {
   \ 'dir':  '\v[\/](\.(git|hg|svn)|_build)$',
   \ }
