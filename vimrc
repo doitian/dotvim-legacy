@@ -35,6 +35,7 @@ Plugin 'Lokaltog/powerline', {'rtp': 'powerline/bindings/vim/'}
 Plugin 'thinca/vim-visualstar'
 Plugin 'Lokaltog/vim-easymotion'
 Plugin 'altercation/vim-colors-solarized'
+Plugin 'tommcdo/vim-exchange'
 " Plugin 'SirVer/ultisnips'
 " Plugin 'honza/vim-snippets
 "}}}
@@ -310,6 +311,11 @@ inoremap <C-y> <C-R>"
 
 vnoremap <silent> <Enter> :EasyAlign<cr>
 
+nmap gx <Plug>(Exchange)
+nmap gxx <Plug>(ExchangeLine)
+nmap gX <Plug>(ExchangeClear)
+vmap gx <Plug>(Exchange)
+
 nnoremap <leader>a :Ag<Space>
 " b subword
 
@@ -357,6 +363,7 @@ nnoremap <silent> <leader>ot :exe "silent !open -a 'Terminal.app' " . shellescap
 nnoremap <silent> <leader>of :exe "silent !open -R " . shellescape(expand('%')) . " &> /dev/null" \| :redraw!<cr>
 nnoremap <silent> <leader>om :exe "silent !open -a 'Marked 2.app' " . shellescape(expand('%')) . " &> /dev/null" \| :redraw!<cr>
 nnoremap <silent> <leader>oM :exe "silent !open -a 'Marked 2.app' " . shellescape(expand('%:h')) . " &> /dev/null" \| :redraw!<cr>
+nmap <silent> <leader>oo <Plug>NetrwBrowseX
 
 nnoremap <leader>p "*p
 nnoremap <leader>P "*P
