@@ -34,6 +34,7 @@ Plugin 'amiorin/ctrlp-z'
 Plugin 'Lokaltog/powerline', {'rtp': 'powerline/bindings/vim/'}
 Plugin 'thinca/vim-visualstar'
 Plugin 'Lokaltog/vim-easymotion'
+Plugin 'altercation/vim-colors-solarized'
 " Plugin 'SirVer/ultisnips'
 " Plugin 'honza/vim-snippets
 "}}}
@@ -193,8 +194,6 @@ command! -bang TmuxRepat :call TmuxRepat()
 command! -bang -nargs=1 TmuxSetBuffer :call system("tmux set-buffer " . shellescape(<q-args>))
 
 command! Reload :source ~/.vimrc | :filetype detect
-
-command! MMix :let &mp = 'mix'
 "}}}
 
 "{{{ Config
@@ -258,6 +257,9 @@ set noerrorbells
 set nomodeline
 set cursorline
 set ruler
+
+set spellfile=$HOME/.vim-spell-en.utf-8.add
+set spelllang=en_us
 "}}}
 
 "{{{ Shortcut mappings
@@ -323,6 +325,8 @@ vnoremap <silent> <leader>d "_d
 
 nnoremap <leader>f :SyntasticNext<CR>
 nnoremap <leader>F :SyntasticNext!<CR>
+nnoremap <silent> ]l :lnext<CR>
+nnoremap <silent> [l :lprevious<CR>
 
 " shortcut to jump to next conflict marker
 nnoremap <silent> <leader>gb :CtrlPBuffer<CR>
@@ -330,6 +334,7 @@ nnoremap <silent> <leader>gh :CtrlPF<CR>
 nnoremap <silent> <leader>gd :CtrlPZ<CR>
 nnoremap <silent> <leader>gf :e <C-R>=expand('%:h').'/'<cr><C-D>
 nnoremap <silent> <leader>go :vimgrep<Space><Space><C-v>%<Left><Left>
+nnoremap <silent> <leader>gr :CtrlPMRUFiles<CR>
 
 nnoremap <leader>i :CtrlPBufTag<CR>
 nnoremap <leader>I :CtrlPBufTagAll<CR>
@@ -437,5 +442,10 @@ augroup END
 augroup gitcommit
   au!
   au FileType gitcommit 1 | startinsert
+augroup END
+
+augroup spell
+  au!
+  autocmd FileType markdown,gitcommit setlocal spell
 augroup END
 "}}}
