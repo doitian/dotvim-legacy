@@ -97,12 +97,13 @@ let Tlist_Use_Right_Window=1
 
 let g:ctrlp_root_markers = ['.git', '.projectile']
 let g:ctrlp_map = '<leader>,'
-let g:ctrlp_user_command = {
-  \ 'types': {
-    \ 1: ['.git', 'cd %s && git ls-files'],
-    \ },
-  \ 'fallback': 'find %s -type f'
-  \ }
+let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
+" let g:ctrlp_user_command = {
+"   \ 'types': {
+"     \ 1: ['.git', 'cd %s && git ls-files'],
+"     \ },
+"   \ 'fallback': 'ag %s -l --nocolor -g ""'
+"   \ }
 let g:ctrlp_custom_ignore = {
   \ 'dir':  '\v[\/](\.(git|hg|svn)|_build)$',
   \ }
@@ -261,6 +262,9 @@ set ruler
 
 set spellfile=$HOME/.vim-spell-en.utf-8.add
 set spelllang=en_us
+
+set grepprg=ag\ --vimgrep\ $*
+set grepformat=%f:%l:%c:%m
 "}}}
 
 "{{{ Shortcut mappings
@@ -339,7 +343,7 @@ nnoremap <silent> <leader>gb :CtrlPBuffer<CR>
 nnoremap <silent> <leader>gh :CtrlPF<CR>
 nnoremap <silent> <leader>gd :CtrlPZ<CR>
 nnoremap <silent> <leader>gf :e <C-R>=expand('%:h').'/'<cr><C-D>
-nnoremap <silent> <leader>go :vimgrep<Space><Space><C-v>%<Left><Left>
+nnoremap <leader>go :grep<Space><Space><C-v>%<Left><Left>
 nnoremap <silent> <leader>gr :CtrlPMRUFiles<CR>
 
 nnoremap <leader>i :CtrlPBufTag<CR>
