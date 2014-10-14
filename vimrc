@@ -465,6 +465,6 @@ augroup END
 
 augroup spell
   au!
-  autocmd FileType markdown,gitcommit setlocal spell
+  autocmd FileType gitcommit setlocal spell
 augroup END
 "}}}
