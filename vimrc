@@ -65,6 +65,9 @@ endif
 " set statusline=%<%f\ %h%m%r%=%-14.(%l,%c%V%)\ %P
 let g:Powerline_colorscheme='solarized256_dark'
 set noshowmode
+
+syn match myConflictMark "^\(<\|=\|>\)\{7\}\([^=].\+\)\?$"
+hi def link myConflictMark ErrorMsg
 "}}}
 
 "{{{ Plugins Options
