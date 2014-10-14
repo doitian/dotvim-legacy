@@ -45,7 +45,7 @@ colors solarized
 set bg=dark
 if has("gui_running")
   if has("mac")
-    set guifont=Source\ Code\ Pro\ Medium:h18
+    set guifont=Source\ Code\ Pro\ Medium:h16
     set background=dark
   else
     set guifont=Inconsolata\ 14
@@ -66,8 +66,9 @@ endif
 let g:Powerline_colorscheme='solarized256_dark'
 set noshowmode
 
-syn match myConflictMark "^\(<\|=\|>\)\{7\}\([^=].\+\)\?$"
-hi def link myConflictMark ErrorMsg
+if &t_Co > 2 || has("gui_running")
+  syntax on
+endif
 "}}}
 
 "{{{ Plugins Options
