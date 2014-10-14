@@ -450,11 +450,6 @@ augroup javascript_ft
   autocmd BufNewFile,BufRead *.json set ft=javascript
 augroup END
 
-augroup gitcommit
-  au!
-  au FileType gitcommit 1 | startinsert
-augroup END
-
 augroup spell
   au!
   autocmd FileType markdown,gitcommit setlocal spell
