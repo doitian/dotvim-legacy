@@ -65,11 +65,6 @@ endif
 " set statusline=%<%f\ %h%m%r%=%-14.(%l,%c%V%)\ %P
 let g:Powerline_colorscheme='solarized256_dark'
 set noshowmode
-
-if &t_Co > 2 || has("gui_running")
-   syntax on
-endif
-match ErrorMsg '^\(<\|=\|>\)\{7\}\([^=].\+\)\?$'
 "}}}
 
 "{{{ Plugins Options
@@ -196,6 +191,15 @@ command! -bang TmuxRepat :call TmuxRepat()
 command! -bang -nargs=1 TmuxSetBuffer :call system("tmux set-buffer " . shellescape(<q-args>))
 
 command! Reload :source ~/.vimrc | :filetype detect
+
+" Toggle [ ] and [x]
+function! ToggleTodoStatus(clear)
+  if a:clear
+    s/\[[-x]\]/[ ]/e
+  else
+    s/\[\([- x]\)\]/\=submatch(1) == ' ' ? '[x]' : '[ ]'/e
+  endif
+endfunction
 "}}}
 
 "{{{ Config
@@ -287,7 +291,7 @@ vnoremap Q gq
 nnoremap Q gqap
 
 " make p in Visual mode replace the selected text with the yank register
-vnoremap p <Esc>:let current_reg = @"<CR>gvdi<C-R>=current_reg<CR><Esc>
+vnoremap <silent> p <Esc>:let current_reg = @"<CR>gvdi<C-R>=current_reg<CR><Esc>
 
 " Easy window navigation
 nnoremap <C-h> <C-w>h
@@ -346,12 +350,12 @@ nnoremap <silent> <leader>gf :e <C-R>=expand('%:h').'/'<cr><C-D>
 nnoremap <leader>go :grep<Space><Space><C-v>%<Left><Left>
 nnoremap <silent> <leader>gr :CtrlPMRUFiles<CR>
 
-nnoremap <leader>i :CtrlPBufTag<CR>
-nnoremap <leader>I :CtrlPBufTagAll<CR>
+nnoremap <silent> <leader>i :CtrlPBufTag<CR>
+nnoremap <silent> <leader>I :CtrlPBufTagAll<CR>
 
-nnoremap <leader>lt :TlistToggle<CR>
-nnoremap <leader>ll :NERDTreeToggle<CR>
-nnoremap <leader>lf :NERDTreeFind<CR>
+nnoremap <silent> <leader>lt :TlistToggle<CR>
+nnoremap <silent> <leader>ll :NERDTreeToggle<CR>
+nnoremap <silent> <leader>lf :NERDTreeFind<CR>
 noremap <silent> <leader>lbe :BufExplorer<CR>
 noremap <silent> <leader>lbs :BufExplorerHorizontalSplit<CR>
 noremap <silent> <leader>lbv :BufExplorerVerticalSplit<CR>
@@ -374,9 +378,14 @@ nnoremap <leader>P "*P
 
 " Tame the quickfix window (open/close using ,q)
 nnoremap <silent> <leader>Q :QFix<CR>
-nnoremap <leader>q :CtrlPQuickfix<CR>
+nnoremap <silent> <leader>q :CtrlPQuickfix<CR>
 
 nnoremap <leader>r :YRShow<CR>
+
+nnoremap <silent> <leader>sx :call ToggleTodoStatus(0)<cr>
+nnoremap <silent> <leader>sX :call ToggleTodoStatus(1)<cr>
+vnoremap <silent> <leader>sx :call ToggleTodoStatus(0)<cr>
+vnoremap <silent> <leader>sX :call ToggleTodoStatus(1)<cr>
 
 nnoremap <leader>ts :TmuxSend<space>
 nnoremap <leader>tS :TmuxSend!<space>
