@@ -390,6 +390,8 @@ nnoremap <silent> <leader>sx :call ToggleTodoStatus(0)<cr>
 nnoremap <silent> <leader>sX :call ToggleTodoStatus(1)<cr>
 vnoremap <silent> <leader>sx :call ToggleTodoStatus(0)<cr>
 vnoremap <silent> <leader>sX :call ToggleTodoStatus(1)<cr>
+" Strip all trailing whitespace from a file
+nnoremap <silent> <leader>sw :%s/\s\+$//e<CR>:let @/=''<CR>:echo "Trailing whitespace cleaned"<CR>
 
 nnoremap <leader>ts :TmuxSend<space>
 nnoremap <leader>tS :TmuxSend!<space>
@@ -424,9 +426,6 @@ nnoremap <silent> <leader>// :nohlsearch<CR>
 " search word under cursor
 nnoremap <leader>; ;
 nnoremap <leader>: ,
-
-" Strip all trailing whitespace from a file
-nnoremap <leader><Space> :%s/\s\+$//<CR>:let @/=''<CR>
 
 "}}}
 
