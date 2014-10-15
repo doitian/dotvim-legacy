@@ -9,7 +9,6 @@ call vundle#rc()
 Plugin 'gmarik/vundle'
 
 Plugin 'scrooloose/nerdtree'
-Plugin 'vim-scripts/YankRing.vim'
 Plugin 'tpope/vim-markdown'
 Plugin 'tpope/vim-repeat'
 Plugin 'tpope/vim-surround'
@@ -72,8 +71,6 @@ endif
 "}}}
 
 "{{{ Plugins Options
-let g:yankring_history_dir = '$HOME/.vim/.tmp'
-
 let NERDTreeBookmarksFile=expand("$HOME/.vim/NERDTreeBookmarks")
 let NERDTreeShowBookmarks=1
 let NERDTreeShowFiles=1
@@ -383,8 +380,6 @@ nnoremap <leader>P "*P
 " Tame the quickfix window (open/close using ,q)
 nnoremap <silent> <leader>Q :QFix<CR>
 nnoremap <silent> <leader>q :CtrlPQuickfix<CR>
-
-nnoremap <leader>r :YRShow<CR>
 
 nnoremap <silent> <leader>sx :call ToggleTodoStatus(0)<cr>
 nnoremap <silent> <leader>sX :call ToggleTodoStatus(1)<cr>
