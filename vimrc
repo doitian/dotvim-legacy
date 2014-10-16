@@ -192,6 +192,8 @@ command! -bang TmuxRepat :call TmuxRepat()
 command! -bang -nargs=1 TmuxSetBuffer :call system("tmux set-buffer " . shellescape(<q-args>))
 
 command! Reload :source ~/.vimrc | :filetype detect
+command! Clear :bufdo bd | :silent! argd *
+command! -nargs=1 -complete=dir Cd :bufdo bd | :silent! argd * | cd <q-args>
 
 " Toggle [ ] and [x]
 function! ToggleTodoStatus(clear)
@@ -361,8 +363,8 @@ noremap <silent> <leader>lbe :BufExplorer<CR>
 noremap <silent> <leader>lbs :BufExplorerHorizontalSplit<CR>
 noremap <silent> <leader>lbv :BufExplorerVerticalSplit<CR>
 
-nnoremap <silent> <leader>m :cnext<CR>
-nnoremap <silent> <leader>M :make<CR>
+nnoremap <silent> <leader>m :make<CR>
+nnoremap <leader>M :compiler<space>
 nnoremap <silent> ]e :cnext<CR>
 nnoremap <silent> [e :cprevious<CR>
 
