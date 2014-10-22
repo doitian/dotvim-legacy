@@ -327,6 +327,7 @@ nmap gxx <Plug>(ExchangeLine)
 nmap gX <Plug>(ExchangeClear)
 vmap gx <Plug>(Exchange)
 
+nnoremap <leader>. @:
 nnoremap <leader>a :Ag<Space>
 " b subword
 
@@ -349,9 +350,10 @@ nnoremap <silent> [l :lprevious<CR>
 nnoremap <silent> <leader>gb :CtrlPBuffer<CR>
 nnoremap <silent> <leader>gh :CtrlPF<CR>
 nnoremap <silent> <leader>gd :CtrlPZ<CR>
-nnoremap <silent> <leader>gf :e <C-R>=expand('%:h').'/'<cr><C-D>
+nnoremap <silent> <leader>gf :CtrlPCurFile<CR>
 nnoremap <leader>go :grep<Space><Space><C-v>%<Left><Left>
 nnoremap <silent> <leader>gr :CtrlPMRUFiles<CR>
+nnoremap <silent> <leader>g. :e <C-R>=expand('%:h').'/'<cr><C-D>
 
 nnoremap <silent> <leader>i :CtrlPBufTag<CR>
 nnoremap <silent> <leader>I :CtrlPBufTagAll<CR>
