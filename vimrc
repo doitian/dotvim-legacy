@@ -353,7 +353,7 @@ nnoremap <silent> <leader>gd :CtrlPZ<CR>
 nnoremap <silent> <leader>gf :CtrlPCurFile<CR>
 nnoremap <leader>go :grep<Space><Space><C-v>%<Left><Left>
 nnoremap <silent> <leader>gr :CtrlPMRUFiles<CR>
-nnoremap <silent> <leader>g. :e <C-R>=expand('%:h').'/'<cr><C-D>
+nnoremap <leader>g. :e <C-R>=expand('%:h').'/'<cr><C-d>
 
 nnoremap <silent> <leader>i :CtrlPBufTag<CR>
 nnoremap <silent> <leader>I :CtrlPBufTagAll<CR>
