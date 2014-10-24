@@ -70,7 +70,7 @@ endif
 if &t_Co > 2 || has("gui_running")
   syntax on
 endif
-hi MatchParen cterm=bold ctermbg=none ctermfg=red
+hi MatchParen cterm=bold ctermbg=none ctermfg=red gui=bold guibg=none guifg=red
 "}}}
 
 "{{{ Plugins Options
