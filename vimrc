@@ -30,11 +30,11 @@ Plugin 'elixir-lang/vim-elixir'
 Plugin 'scrooloose/syntastic'
 Plugin 'editorconfig/editorconfig-vim'
 Plugin 'amiorin/ctrlp-z'
-Plugin 'Lokaltog/powerline', {'rtp': 'powerline/bindings/vim/'}
 Plugin 'thinca/vim-visualstar'
 Plugin 'Lokaltog/vim-easymotion'
 Plugin 'altercation/vim-colors-solarized'
 Plugin 'tommcdo/vim-exchange'
+Plugin 'bling/vim-airline'
 " Plugin 'SirVer/ultisnips'
 " Plugin 'honza/vim-snippets
 "}}}
@@ -61,9 +61,9 @@ if has("gui_running")
   let c_comment_strings=1
 endif
 
-" set statusline=%<%f\ %h%m%r%=%-14.(%l,%c%V%)\ %P
-let g:Powerline_colorscheme='solarized256_dark'
 set noshowmode
+"set statusline=\ %{HasPaste()}%F%m%r%h\ %w\ \ CWD:\ %r%{getcwd()}%h\ \ \ Line:\ %l
+let g:airline_powerline_fonts = 1
 
 if &t_Co > 2 || has("gui_running")
   syntax on
@@ -203,6 +203,14 @@ function! ToggleTodoStatus(clear)
     s/\[\([- x]\)\]/\=submatch(1) == ' ' ? '[x]' : '[ ]'/e
   endif
 endfunction
+
+" Returns true if paste mode is enabled
+function! HasPaste()
+    if &paste
+        return 'PASTE MODE  '
+    en
+    return ''
+endfunction
 "}}}
 
 "{{{ Config
@@ -240,7 +248,6 @@ set termencoding=utf-8
 set encoding=utf-8
 set lazyredraw
 set laststatus=2
-set cmdheight=2
 
 set hidden
 set switchbuf=useopen
