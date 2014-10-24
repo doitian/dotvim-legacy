@@ -70,6 +70,7 @@ endif
 if &t_Co > 2 || has("gui_running")
   syntax on
 endif
+hi MatchParen cterm=bold ctermbg=none ctermfg=red
 "}}}
 
 "{{{ Plugins Options
@@ -225,7 +226,7 @@ set backspace=indent,eol,start
 set autoindent
 set copyindent
 set number
-set showmatch
+"set showmatch
 set ignorecase
 set smartcase
 set smarttab
@@ -264,7 +265,7 @@ if has("vms")
 else
   set backup
 endif
-set backupdir=~/.vim/backup
+set backupdir=~/.vim/backup//
 set viminfo='20,\"80
 set wildmenu
 set wildmode=list,full
