@@ -63,7 +63,9 @@ endif
 
 set noshowmode
 "set statusline=\ %{HasPaste()}%F%m%r%h\ %w\ \ CWD:\ %r%{getcwd()}%h\ \ \ Line:\ %l
-let g:airline_powerline_fonts = 1
+if has("mac")
+  let g:airline_powerline_fonts = 1
+endif
 
 if &t_Co > 2 || has("gui_running")
   syntax on
