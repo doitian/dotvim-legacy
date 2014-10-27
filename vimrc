@@ -415,6 +415,7 @@ nnoremap <leader>; ;
 nnoremap <leader>: ,
 
 " Filetype specific handling {{{1
+filetype indent plugin on
 augroup yaml_header_matters
   au!
 
