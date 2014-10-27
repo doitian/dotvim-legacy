@@ -59,19 +59,6 @@ set noshowmode
 if has("mac")
   let g:airline_powerline_fonts=1
 endif
-let g:airline_mode_map = {
-    \ '__' : '-',
-    \ 'n'  : 'N',
-    \ 'i'  : 'I',
-    \ 'R'  : 'R',
-    \ 'c'  : 'C',
-    \ 'v'  : 'V',
-    \ 'V'  : 'V',
-    \ '' : 'V',
-    \ 's'  : 'S',
-    \ 'S'  : 'S',
-    \ '' : 'S',
-    \ }
 
 if &t_Co > 2 || has("gui_running")
   syntax on
