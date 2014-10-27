@@ -2,8 +2,10 @@ if v:progname =~? "evim"
   finish
 endif
 set nocompatible
+scriptencoding utf-8
+set encoding=utf-8
 
-"{{{ Vundle
+" Vundle {{{1
 set rtp+=~/.vim/bundle/vundle/
 call vundle#rc()
 Plugin 'gmarik/vundle'
@@ -12,6 +14,7 @@ Plugin 'scrooloose/nerdtree'
 Plugin 'tpope/vim-markdown'
 Plugin 'tpope/vim-repeat'
 Plugin 'tpope/vim-surround'
+Plugin 'tpope/vim-fugitive'
 Plugin 'bkad/CamelCaseMotion'
 Plugin 'kana/vim-textobj-user'
 Plugin 'kana/vim-textobj-indent'
@@ -37,19 +40,10 @@ Plugin 'tommcdo/vim-exchange'
 Plugin 'bling/vim-airline'
 " Plugin 'SirVer/ultisnips'
 " Plugin 'honza/vim-snippets
-"}}}
 
-"{{{ Theme
-colors solarized
-set bg=dark
+" Theme {{{1
 if has("gui_running")
-  if has("mac")
-    set guifont=Source\ Code\ Pro\ Medium:h16
-    set background=dark
-  else
-    set guifont=Inconsolata\ 14
-    set guioptions-=m
-  endif
+  set guifont=Source\ Code\ Pro\ Medium:h16
 
   " Remove toolbar, left scrollbar and right scrollbar
   set guioptions-=TlLrR
@@ -58,40 +52,48 @@ if has("gui_running")
 
   map <S-Insert> <MiddleMouse>
   map! <S-Insert> <MiddleMouse>
-  let c_comment_strings=1
 endif
 
 set noshowmode
 "set statusline=\ %{HasPaste()}%F%m%r%h\ %w\ \ CWD:\ %r%{getcwd()}%h\ \ \ Line:\ %l
 if has("mac")
-  let g:airline_powerline_fonts = 1
+  let g:airline_powerline_fonts=1
 endif
+let g:airline_mode_map = {
+    \ '__' : '-',
+    \ 'n'  : 'N',
+    \ 'i'  : 'I',
+    \ 'R'  : 'R',
+    \ 'c'  : 'C',
+    \ 'v'  : 'V',
+    \ 'V'  : 'V',
+    \ '' : 'V',
+    \ 's'  : 'S',
+    \ 'S'  : 'S',
+    \ '' : 'S',
+    \ }
 
 if &t_Co > 2 || has("gui_running")
   syntax on
 endif
-hi MatchParen cterm=bold ctermbg=none ctermfg=red gui=bold guibg=NONE guifg=red
-"}}}
+if &t_Co < 256
+  let g:solarized_termcolors=256
+endif
+colors solarized
+set bg=dark
 
-"{{{ Plugins Options
+hi MatchParen cterm=bold ctermbg=none ctermfg=red gui=bold guibg=NONE guifg=red
+
+" Plugins Options {{{1
 let NERDTreeBookmarksFile=expand("$HOME/.vim/NERDTreeBookmarks")
-let NERDTreeShowBookmarks=1
-let NERDTreeShowFiles=1
-let NERDTreeShowHidden=1
-let NERDTreeQuitOnOpen=1
-let NERDTreeHighlightCursorline=1
-let NERDTreeMouseMode=2
 let NERDTreeIgnore=[ '\.pyc$', '\.pyo$', '\.py\$class$', '\.obj$',
             \ '\.o$', '\.so$', '\.egg$', '^\.git$', '^__pycache__$',
-            \ '\.sublime-project$', '\.sublime-workspace$']
-
+            \ '\.beam$', '\.sublime-project$', '\.sublime-workspace$']
 
 let Tlist_Exit_OnlyWindow=1
 let Tlist_GainFocus_On_ToggleOpen=1
 let Tlist_WinWidth=40
-let Tlist_Inc_Winwidth=1
-let Tlist_Display_Prototype=1
-let Tlist_Display_Tag_Scope=0
+let Tlist_Inc_Winwidth=0
 let Tlist_Use_Right_Window=1
 
 let g:ctrlp_root_markers = ['.git', '.svn', '.projectile']
@@ -114,9 +116,8 @@ let g:syntastic_mode_map = { "mode": "passive",
                            \ "active_filetypes": [],
                            \ "passive_filetypes": [] }
 let g:syntastic_auto_loc_list = 1
-"}}}
 
-"{{{ Functions & Commands
+" Functions & Commands {{{1
 command! -bang -nargs=? QFix call QFixToggle(<bang>0)
 function! QFixToggle(forced)
   if exists("g:qfix_win") && a:forced == 0
@@ -214,37 +215,29 @@ function! HasPaste()
     en
     return ''
 endfunction
-"}}}
 
-"{{{ Config
-set tabstop=4
-set softtabstop=4
+" Config {{{1
 set expandtab
 set shiftwidth=2
 set shiftround
 set backspace=indent,eol,start
 set autoindent
 set copyindent
-set number
-"set showmatch
+" set number
 set ignorecase
 set smartcase
 set smarttab
 set scrolloff=4
-set virtualedit="vb"
+set virtualedit="block,insert"
 set hlsearch
 set incsearch
 set listchars=tab:▸\ ,trail:·,extends:#,nbsp:·
-set nolist
 set pastetoggle=<F12>
-set mouse=a
 set fileformats="unix,dos,mac"
 set formatoptions+=1
 
-set foldcolumn=2
 set foldmethod=marker
 set foldlevelstart=0
-set foldopen=block,hor,insert,jump,mark,percent,quickfix,search,tag,undo
 set foldtext=MyFoldText()
 
 set termencoding=utf-8
@@ -258,7 +251,7 @@ set history=1000
 set undolevels=1000
 if v:version >= 730
   set undofile
-  set undodir=~/.vim/.undo,~/tmp,/tmp
+  set undodir=~/.vim/.undo,/tmp
 endif
 if has("vms")
   set nobackup
@@ -266,25 +259,23 @@ else
   set backup
 endif
 set backupdir=~/.vim/backup//
-set viminfo='20,\"80
+set viminfo='30,\"80
 set wildmenu
-set wildmode=list,full
+set wildmode=list:longest,full
 set wildignore=*.swp,*.bak,*.pyc,*.class,*.beam
 set title
 set visualbell
 set noerrorbells
-set nomodeline
 set cursorline
-set ruler
+" set ruler
 
 set spellfile=$HOME/.vim-spell-en.utf-8.add
 set spelllang=en_us
 
 set grepprg=ag\ --vimgrep\ $*
 set grepformat=%f:%l:%c:%m
-"}}}
 
-"{{{ Shortcut mappings
+" Shortcut mappings {{{1
 let mapleader = ","
 let g:mapleader = ","
 let maplocalleader = "\\"
@@ -436,19 +427,7 @@ nnoremap <silent> <leader>// :nohlsearch<CR>
 nnoremap <leader>; ;
 nnoremap <leader>: ,
 
-"}}}
-
-"{{{ Filetype specific handling
-filetype indent plugin on
-augroup invisible_chars
-  au!
-
-  " Show invisible characters in all of these files
-  autocmd filetype vim setlocal list
-  autocmd filetype ruby setlocal list
-  autocmd filetype javascript,css setlocal list
-augroup end
-
+" Filetype specific handling {{{1
 augroup yaml_header_matters
   au!
 
@@ -475,4 +454,3 @@ augroup spell
   au!
   autocmd FileType gitcommit setlocal spell
 augroup END
-"}}}
