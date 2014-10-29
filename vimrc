@@ -38,6 +38,7 @@ Plugin 'Lokaltog/vim-easymotion'
 Plugin 'altercation/vim-colors-solarized'
 Plugin 'tommcdo/vim-exchange'
 Plugin 'bling/vim-airline'
+Plugin 'rizzatti/dash.vim'
 " Plugin 'SirVer/ultisnips'
 " Plugin 'honza/vim-snippets
 
@@ -342,6 +343,9 @@ nnoremap <silent> <leader>gf :CtrlPCurFile<CR>
 nnoremap <leader>go :grep<Space><Space><C-v>%<Left><Left>
 nnoremap <silent> <leader>gr :CtrlPMRUFiles<CR>
 nnoremap <leader>g. :e <C-R>=expand('%:h').'/'<cr><C-d>
+
+nmap <silent> <leader>h <Plug>DashSearch
+nmap <silent> <leader>H <Plug>DashGlobalSearch
 
 nnoremap <silent> <leader>i :CtrlPBufTag<CR>
 nnoremap <silent> <leader>I :CtrlPBufTagAll<CR>
