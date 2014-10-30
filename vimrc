@@ -10,11 +10,13 @@ set rtp+=~/.vim/bundle/vundle/
 call vundle#rc()
 Plugin 'gmarik/vundle'
 
+Plugin 'danro/rename.vim'
 Plugin 'scrooloose/nerdtree'
 Plugin 'tpope/vim-markdown'
 Plugin 'tpope/vim-repeat'
 Plugin 'tpope/vim-surround'
 Plugin 'tpope/vim-fugitive'
+Plugin 'tpope/vim-abolish'
 Plugin 'bkad/CamelCaseMotion'
 Plugin 'kana/vim-textobj-user'
 Plugin 'kana/vim-textobj-indent'
@@ -86,13 +88,14 @@ let Tlist_Use_Right_Window=1
 
 let g:ctrlp_root_markers = ['.git', '.svn', '.projectile']
 let g:ctrlp_map = '<leader>,'
-let g:ctrlp_user_command = {
-  \ 'types': {
-    \ 1: ['.git', 'cd %s && git ls-files -co --exclude-standard'],
-    \ 2: ['.svn', 'cd %s && svn list -R . | grep -v "/$"'],
-    \ },
-  \ 'fallback': 'ag %s -l --nocolor -g ""'
-  \ }
+let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
+" let g:ctrlp_user_command = {
+"   \ 'types': {
+"     \ 1: ['.git', 'cd %s && git ls-files -co --exclude-standard'],
+"     \ 2: ['.svn', 'cd %s && svn list -R . | grep -v "/$"'],
+"     \ },
+"   \ 'fallback': 'ag %s -l --nocolor -g ""'
+"   \ }
 let g:ctrlp_custom_ignore = {
   \ 'dir':  '\v[\/](\.(git|hg|svn)|_build)$',
   \ }
@@ -154,7 +157,7 @@ if !exists(":DiffOrig")
 endif
 
 command! Sw w !sudo tee % >/dev/null
-command! NT NERDTree
+command! -nargs=? NT NERDTree <args>
 
 let s:tmux_last_command=""
 let s:tmux_last_no_new_line=1
@@ -204,6 +207,29 @@ function! HasPaste()
     return ''
 endfunction
 
+" wrapper function to restore the cursor position, window position,
+" and last search after running a command.
+function! Preserve(command)
+  " Save the last search
+  let last_search=@/
+  " Save the current cursor position
+  let save_cursor = getpos(".")
+  " Save the window position
+  normal H
+  let save_window = getpos(".")
+  call setpos('.', save_cursor)
+ 
+  " Do the business:
+  execute a:command
+ 
+  " Restore the last_search
+  let @/=last_search
+  " Restore the window position
+  call setpos('.', save_window)
+  normal zt
+  " Restore the cursor position
+  call setpos('.', save_cursor)
+endfunction
 " Config {{{1
 set expandtab
 set shiftwidth=2
@@ -337,8 +363,9 @@ nnoremap <silent> [l :lprevious<CR>
 
 " shortcut to jump to next conflict marker
 nnoremap <silent> <leader>gb :CtrlPBuffer<CR>
+nnoremap <silent> <leader>gd :CtrlPDir<CR>
 nnoremap <silent> <leader>gh :CtrlPF<CR>
-nnoremap <silent> <leader>gd :CtrlPZ<CR>
+nnoremap <silent> <leader>gz :CtrlPZ<CR>
 nnoremap <silent> <leader>gf :CtrlPCurFile<CR>
 nnoremap <leader>go :grep<Space><Space><C-v>%<Left><Left>
 nnoremap <silent> <leader>gr :CtrlPMRUFiles<CR>
