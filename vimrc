@@ -241,7 +241,7 @@ set copyindent
 set ignorecase
 set smartcase
 set smarttab
-set scrolloff=4
+set scrolloff=2
 set virtualedit="block,insert"
 set hlsearch
 set incsearch
@@ -301,8 +301,10 @@ noremap! <F1> <Esc>
 map <space> <Plug>(easymotion-prefix)
 
 nnoremap ; :
-nnoremap <C-e> 2<C-e>
-nnoremap <C-y> 2<C-y>
+nnoremap <C-e> 3<C-e>
+nnoremap <C-y> 3<C-y>
+nnoremap <silent> <C-n> :bnext<CR>
+nnoremap <silent> <C-p> :bNext<CR>
 
 " Use Q for formatting the current paragraph (or visual selection)
 vnoremap Q gq
@@ -343,6 +345,9 @@ nmap gX <Plug>(ExchangeClear)
 vmap gx <Plug>(Exchange)
 
 nnoremap <leader>. @:
+nnoremap <silent> <leader>1 <C-w>o
+nnoremap <silent> <leader>2 <C-w>o<C-w>s<C-w>w:b#<CR><C-w>w
+nnoremap <silent> <leader>3 <C-w>o<C-w>v<C-w>w:b#<CR><C-w>w
 nnoremap <leader>a :Ag<Space>
 " b subword
 
