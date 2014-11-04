@@ -313,12 +313,6 @@ nnoremap Q gqap
 " make p in Visual mode replace the selected text with the yank register
 vnoremap <silent> p <Esc>:let current_reg = @"<CR>gvdi<C-R>=current_reg<CR><Esc>
 
-" Easy window navigation
-nnoremap <C-h> <C-w>h
-nnoremap <C-j> <C-w>j
-nnoremap <C-k> <C-w>k
-nnoremap <C-l> <C-w>l
-
 " Complete whole filenames/lines with a quicker shortcut key in insert mode
 inoremap <C-f> <C-x><C-f>
 inoremap <C-l> <C-x><C-l>
