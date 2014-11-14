@@ -368,7 +368,7 @@ nnoremap <silent> <leader>gz :CtrlPZ<CR>
 nnoremap <silent> <leader>gf :CtrlPCurFile<CR>
 nnoremap <leader>go :grep<Space><Space><C-v>%<Left><Left>
 nnoremap <silent> <leader>gr :CtrlPMRUFiles<CR>
-nnoremap <leader>g. :e <C-R>=expand('%:h').'/'<cr><C-d>
+nnoremap <leader>g. :e <C-R>=expand('%:h').'/'<cr>
 
 nmap <silent> <leader>h <Plug>DashSearch
 nmap <silent> <leader>H <Plug>DashGlobalSearch
