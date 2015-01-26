@@ -41,6 +41,7 @@ Plugin 'altercation/vim-colors-solarized'
 Plugin 'tommcdo/vim-exchange'
 Plugin 'bling/vim-airline'
 Plugin 'rizzatti/dash.vim'
+Plugin 'mattn/emmet-vim'
 " Plugin 'SirVer/ultisnips'
 " Plugin 'honza/vim-snippets
 
@@ -107,6 +108,10 @@ let g:syntastic_mode_map = { "mode": "passive",
                            \ "active_filetypes": [],
                            \ "passive_filetypes": [] }
 let g:syntastic_auto_loc_list = 1
+
+let g:user_emmet_settings = {
+      \ 'indentation' : '  '
+      \ }
 
 " Functions & Commands {{{1
 command! -bang -nargs=? QFix call QFixToggle(<bang>0)
@@ -230,6 +235,27 @@ function! Preserve(command)
   " Restore the cursor position
   call setpos('.', save_cursor)
 endfunction
+
+command! -complete=shellcmd -nargs=+ R call s:RunShellCommand(<q-args>)
+function! s:RunShellCommand(cmdline)
+  echo a:cmdline
+  let expanded_cmdline = a:cmdline
+  for part in split(a:cmdline, ' ')
+     if part[0] =~ '\v[%#<]'
+        let expanded_part = fnameescape(expand(part))
+        let expanded_cmdline = substitute(expanded_cmdline, part, expanded_part, '')
+     endif
+  endfor
+  botright 5new
+  setlocal buftype=nofile bufhidden=wipe nobuflisted noswapfile nowrap
+  " call setline(1, 'You entered:    ' . a:cmdline)
+  " call setline(2, 'Expanded Form:  ' .expanded_cmdline)
+  " call setline(3,substitute(getline(2),'.','=','g'))
+  execute '$read !'. expanded_cmdline
+  setlocal nomodifiable
+  1
+endfunction
+
 " Config {{{1
 set expandtab
 set shiftwidth=2
@@ -329,7 +355,7 @@ noremap M ^
 
 inoremap <C-a> <Home>
 inoremap <C-e> <End>
-inoremap <C-y> <C-R>"
+inoremap <C-y><C-y> <C-R>"
 
 vnoremap <silent> <Enter> :EasyAlign<cr>
 
@@ -394,7 +420,8 @@ nnoremap <silent> <leader>ot :exe "silent !open -a 'Terminal.app' " . shellescap
 nnoremap <silent> <leader>of :exe "silent !open -R " . shellescape(expand('%')) . " &> /dev/null" \| :redraw!<cr>
 nnoremap <silent> <leader>om :exe "silent !open -a 'Marked 2.app' " . shellescape(expand('%')) . " &> /dev/null" \| :redraw!<cr>
 nnoremap <silent> <leader>oM :exe "silent !open -a 'Marked 2.app' " . shellescape(expand('%:h')) . " &> /dev/null" \| :redraw!<cr>
-nmap <silent> <leader>oo <Plug>NetrwBrowseX
+nnoremap <silent> <leader>oo :exe "silent !open " . shellescape(expand('%')) . " &> /dev/null" \| :redraw!<cr>
+nmap <silent> <leader>ob <Plug>NetrwBrowseX
 
 nnoremap <leader>p "*p
 nnoremap <leader>P "*P
