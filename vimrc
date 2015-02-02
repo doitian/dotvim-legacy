@@ -87,16 +87,10 @@ let Tlist_WinWidth=40
 let Tlist_Inc_Winwidth=0
 let Tlist_Use_Right_Window=1
 
-let g:ctrlp_root_markers = ['.git', '.svn', '.projectile']
+let g:ctrlp_root_markers = []
+let g:ctrlp_working_path_mode = 'a'
 let g:ctrlp_map = '<leader>,'
 let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
-" let g:ctrlp_user_command = {
-"   \ 'types': {
-"     \ 1: ['.git', 'cd %s && git ls-files -co --exclude-standard'],
-"     \ 2: ['.svn', 'cd %s && svn list -R . | grep -v "/$"'],
-"     \ },
-"   \ 'fallback': 'ag %s -l --nocolor -g ""'
-"   \ }
 let g:ctrlp_custom_ignore = {
   \ 'dir':  '\v[\/](\.(git|hg|svn)|_build)$',
   \ }
@@ -192,7 +186,7 @@ command! -bang TmuxRepat :call TmuxRepat()
 command! -bang -nargs=1 TmuxSetBuffer :call system("tmux set-buffer " . shellescape(<q-args>))
 
 command! Reload :source ~/.vimrc | :filetype detect
-command! Clear :bufdo bd | :silent! argd *
+command! Clear :CtrlPClearCache | :bufdo bd | :silent! argd *
 command! -nargs=1 -complete=dir Cd :bufdo bd | :silent! argd * | cd <q-args>
 
 " Toggle [ ] and [x]
@@ -364,7 +358,7 @@ nmap gxx <Plug>(ExchangeLine)
 nmap gX <Plug>(ExchangeClear)
 vmap gx <Plug>(Exchange)
 
-nnoremap <leader>. @:
+nnoremap <silent> <leader>. :CtrlPClearAllCaches<cr>
 nnoremap <silent> <leader>1 <C-w>o
 nnoremap <silent> <leader>2 <C-w>o<C-w>s<C-w>w:b#<CR><C-w>w
 nnoremap <silent> <leader>3 <C-w>o<C-w>v<C-w>w:b#<CR><C-w>w
