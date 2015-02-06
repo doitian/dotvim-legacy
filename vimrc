@@ -10,13 +10,12 @@ set rtp+=~/.vim/bundle/vundle/
 call vundle#rc()
 Plugin 'gmarik/vundle'
 
-Plugin 'danro/rename.vim'
-Plugin 'scrooloose/nerdtree'
 Plugin 'tpope/vim-markdown'
 Plugin 'tpope/vim-repeat'
 Plugin 'tpope/vim-surround'
 Plugin 'tpope/vim-fugitive'
 Plugin 'tpope/vim-abolish'
+Plugin 'tpope/vim-vinegar'
 Plugin 'bkad/CamelCaseMotion'
 Plugin 'kana/vim-textobj-user'
 Plugin 'kana/vim-textobj-indent'
@@ -42,6 +41,7 @@ Plugin 'tommcdo/vim-exchange'
 Plugin 'bling/vim-airline'
 Plugin 'rizzatti/dash.vim'
 Plugin 'mattn/emmet-vim'
+Plugin 'Glench/Vim-Jinja2-Syntax'
 " Plugin 'SirVer/ultisnips'
 " Plugin 'honza/vim-snippets
 
@@ -76,11 +76,6 @@ set bg=dark
 hi MatchParen cterm=bold ctermbg=none ctermfg=red gui=bold guibg=NONE guifg=red
 
 " Plugins Options {{{1
-let NERDTreeBookmarksFile=expand("$HOME/.vim/NERDTreeBookmarks")
-let NERDTreeIgnore=[ '\.pyc$', '\.pyo$', '\.py\$class$', '\.obj$',
-            \ '\.o$', '\.so$', '\.egg$', '^\.git$', '^__pycache__$',
-            \ '\.beam$', '\.sublime-project$', '\.sublime-workspace$']
-
 let Tlist_Exit_OnlyWindow=1
 let Tlist_GainFocus_On_ToggleOpen=1
 let Tlist_WinWidth=40
@@ -94,7 +89,6 @@ let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
 let g:ctrlp_custom_ignore = {
   \ 'dir':  '\v[\/](\.(git|hg|svn)|_build)$',
   \ }
-let g:ctrlp_z_nerdtree = 1
 let g:ctrlp_extensions = ['Z', 'F']
 
 " syntastic
@@ -108,6 +102,21 @@ let g:user_emmet_settings = {
       \ }
 
 " Functions & Commands {{{1
+function! EchoError(msg)
+  execute "normal \<Esc>"
+  echohl ErrorMsg
+  echomsg a:msg
+  echohl None
+endfunction
+
+function! ExecAndShowError(command)
+  let v:errmsg = ""
+  silent! exec a:command
+  if v:errmsg != ""
+    call EchoError(v:errmsg)
+  endif
+endfunction
+
 command! -bang -nargs=? QFix call QFixToggle(<bang>0)
 function! QFixToggle(forced)
   if exists("g:qfix_win") && a:forced == 0
@@ -130,7 +139,11 @@ function! SyntasticNext(forced)
       ll
     endif
   else
-    lnext
+    try
+      silent lnext
+    catch /E553/
+      call SyntasticNext(1)
+    endtry
   endif
 endfunction
 
@@ -156,7 +169,6 @@ if !exists(":DiffOrig")
 endif
 
 command! Sw w !sudo tee % >/dev/null
-command! -nargs=? NT NERDTree <args>
 
 let s:tmux_last_command=""
 let s:tmux_last_no_new_line=1
@@ -375,7 +387,7 @@ vnoremap <silent> <leader>d "_d
 
 " e subword
 
-nnoremap <leader>f :SyntasticNext<CR>
+nnoremap <silent> <leader>f :SyntasticNext<CR>
 nnoremap <leader>F :SyntasticNext!<CR>
 nnoremap <silent> ]l :lnext<CR>
 nnoremap <silent> [l :lprevious<CR>
@@ -397,8 +409,7 @@ nnoremap <silent> <leader>i :CtrlPBufTag<CR>
 nnoremap <silent> <leader>I :CtrlPBufTagAll<CR>
 
 nnoremap <silent> <leader>lt :TlistToggle<CR>
-nnoremap <silent> <leader>ll :NERDTreeToggle<CR>
-nnoremap <silent> <leader>lf :NERDTreeFind<CR>
+nmap <leader>ll <Plug>VinegarVerticalSplitUp
 noremap <silent> <leader>lbe :BufExplorer<CR>
 noremap <silent> <leader>lbs :BufExplorerHorizontalSplit<CR>
 noremap <silent> <leader>lbv :BufExplorerVerticalSplit<CR>
@@ -489,7 +500,15 @@ augroup javascript_ft
   autocmd BufNewFile,BufRead *.json set ft=javascript
 augroup END
 
+augroup jinjia2_ft
+  au!
+
+  autocmd BufNewFile,BufRead *.j2 set ft=jinja
+augroup END
+
 augroup spell
   au!
   autocmd FileType gitcommit setlocal spell
 augroup END
+
+autocmd FileType netrw setl bufhidden=wipe
