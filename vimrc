@@ -10,12 +10,17 @@ set rtp+=~/.vim/bundle/vundle/
 call vundle#rc()
 Plugin 'gmarik/vundle'
 
+Plugin 'tpope/vim-projectionist'
 Plugin 'tpope/vim-markdown'
 Plugin 'tpope/vim-repeat'
 Plugin 'tpope/vim-surround'
 Plugin 'tpope/vim-fugitive'
 Plugin 'tpope/vim-abolish'
 Plugin 'tpope/vim-vinegar'
+Plugin 'tpope/vim-dispatch'
+Plugin 'tpope/vim-rake'
+Plugin 'tpope/vim-rails'
+Plugin 'tpope/vim-endwise'
 Plugin 'bkad/CamelCaseMotion'
 Plugin 'kana/vim-textobj-user'
 Plugin 'kana/vim-textobj-indent'
@@ -170,33 +175,6 @@ endif
 
 command! Sw w !sudo tee % >/dev/null
 
-let s:tmux_last_command=""
-let s:tmux_last_no_new_line=1
-function! TmuxSend(text, no_new_line)
-  if !exists("s:tmux_args")
-    let s:tmux_args = input("TmuxArgs ", "-t ")
-  end
-
-  if a:no_new_line
-    let l:newline = ""
-  else
-    let l:newline = " C-j"
-  end
-  let s:tmux_last_command = a:text
-  let s:tmux_last_no_new_line = a:no_new_line
-  " echo "tmux send-keys " . s:tmux_args . " " . shellescape(a:text) . l:newline
-  call system("tmux send-keys " . s:tmux_args . " " . shellescape(a:text) . l:newline)
-endfunction
-
-function! TmuxRepeat()
-  call TmuxSend(s:tmux_last_command, s:tmux_last_no_new_line)
-endfunction
-
-command! -bang -nargs=1 TmuxArgs let s:tmux_args=<q-args>
-command! -bang -nargs=1 TmuxSend :call TmuxSend(<q-args>, <bang>0)
-command! -bang TmuxRepat :call TmuxRepat()
-command! -bang -nargs=1 TmuxSetBuffer :call system("tmux set-buffer " . shellescape(<q-args>))
-
 command! Reload :source ~/.vimrc | :filetype detect
 command! Clear :CtrlPClearCache | :bufdo bd | :silent! argd *
 command! -nargs=1 -complete=dir Cd :bufdo bd | :silent! argd * | cd <q-args>
@@ -242,7 +220,7 @@ function! Preserve(command)
   call setpos('.', save_cursor)
 endfunction
 
-command! -complete=shellcmd -nargs=+ R call s:RunShellCommand(<q-args>)
+command! -complete=shellcmd -nargs=+ Shell call s:RunShellCommand(<q-args>)
 function! s:RunShellCommand(cmdline)
   echo a:cmdline
   let expanded_cmdline = a:cmdline
@@ -374,7 +352,9 @@ nnoremap <silent> <leader>. :CtrlPClearAllCaches<cr>
 nnoremap <silent> <leader>1 <C-w>o
 nnoremap <silent> <leader>2 <C-w>o<C-w>s<C-w>w:b#<CR><C-w>w
 nnoremap <silent> <leader>3 <C-w>o<C-w>v<C-w>w:b#<CR><C-w>w
-nnoremap <leader>a :Ag<Space>
+
+nnoremap <leader>a :A<cr>
+
 " b subword
 
 nnoremap <silent> <leader>cd :cd %:h<CR>
@@ -401,6 +381,7 @@ nnoremap <silent> <leader>gf :CtrlPCurFile<CR>
 nnoremap <leader>go :grep<Space><Space><C-v>%<Left><Left>
 nnoremap <silent> <leader>gr :CtrlPMRUFiles<CR>
 nnoremap <leader>g. :e <C-R>=expand('%:h').'/'<cr>
+nnoremap <silent> <leader>gt :CtrlPTag<CR>
 
 nmap <silent> <leader>h <Plug>DashSearch
 nmap <silent> <leader>H <Plug>DashGlobalSearch
@@ -408,14 +389,17 @@ nmap <silent> <leader>H <Plug>DashGlobalSearch
 nnoremap <silent> <leader>i :CtrlPBufTag<CR>
 nnoremap <silent> <leader>I :CtrlPBufTagAll<CR>
 
+" UNUSED j, k
+
 nnoremap <silent> <leader>lt :TlistToggle<CR>
-nmap <leader>ll <Plug>VinegarVerticalSplitUp
+nmap <silent> <leader>ll <Plug>VinegarUp
+nmap <silent> <leader>lv <Plug>VinegarVerticalSplitUp
 noremap <silent> <leader>lbe :BufExplorer<CR>
 noremap <silent> <leader>lbs :BufExplorerHorizontalSplit<CR>
 noremap <silent> <leader>lbv :BufExplorerVerticalSplit<CR>
 
-nnoremap <silent> <leader>m :make<CR>
-nnoremap <leader>M :compiler<space>
+nnoremap <silent> <leader>m :Dispatch<CR>
+nnoremap <silent> <leader>M :Make<CR>
 nnoremap <silent> ]e :cnext<CR>
 nnoremap <silent> [e :cprevious<CR>
 
@@ -435,6 +419,9 @@ nnoremap <leader>P "*P
 nnoremap <silent> <leader>Q :QFix<CR>
 nnoremap <silent> <leader>q :CtrlPQuickfix<CR>
 
+" OmniFocus
+nnoremap <silent> <leader>r :silent exe "Start osascript -e 'tell application \"OmniFocus\" to tell quick entry' -e 'make new inbox task with properties {name:\"%:t\",note:\"mvim://open?line=" . line(".") . "&url=file://%:p\"}' -e 'open' -e 'end tell' &> /dev/null"<cr>
+
 nnoremap <silent> <leader>sx :call ToggleTodoStatus(0)<cr>
 nnoremap <silent> <leader>sX :call ToggleTodoStatus(1)<cr>
 vnoremap <silent> <leader>sx :call ToggleTodoStatus(0)<cr>
@@ -442,15 +429,9 @@ vnoremap <silent> <leader>sX :call ToggleTodoStatus(1)<cr>
 " Strip all trailing whitespace from a file
 nnoremap <silent> <leader>sw :%s/\s\+$//e<CR>:let @/=''<CR>:echo "Trailing whitespace cleaned"<CR>
 
-nnoremap <leader>ts :TmuxSend<space>
-nnoremap <leader>tS :TmuxSend!<space>
-nnoremap <leader>tt :call TmuxRepeat()<cr>
-nnoremap <leader>to :TmuxArgs -t<space>
-nnoremap <leader>tcd :TmuxSend cd <C-R>=expand('%:p:h').'/'<cr><cr>
-nnoremap <leader>tb :TmuxSetBuffer<space>
-vnoremap <leader>tb y:TmuxSetBuffer <C-R>"<cr>
-vnoremap <leader>ts y:TmuxSend <C-R>"<cr>
-vnoremap <leader>tS y:TmuxSend! <C-R>"<cr>
+nnoremap <leader>td :Dispatch<space>
+nnoremap <leader>ts :Start<space>
+nnoremap <leader>tf :Focus<space>
 
 nnoremap <leader>u :GundoToggle<CR>
 " Reselect text that was just pasted with ,v
@@ -466,6 +447,8 @@ nnoremap <buffer> <localleader>x :nnoremap <buffer> <localleader>x :w\\|!<Space>
 nnoremap <leader>y "*y
 nnoremap <leader>Y "*yy
 vnoremap <leader>y "*y
+
+" UNUSED z
 
 nnoremap <silent> <leader>/c /^\(<\\|=\\|>\)\{7\}\([^=].\+\)\?$<CR>
 nnoremap <silent> <leader>/t /\|.\{-}\|<CR>
