@@ -266,6 +266,7 @@ function! s:RunShellCommand(cmdline)
 endfunction
 
 " Config {{{1
+set autoread
 set expandtab
 set shiftwidth=2
 set shiftround
@@ -277,13 +278,16 @@ set ignorecase
 set smartcase
 set smarttab
 set scrolloff=2
+set sidescrolloff=5
+set display+=lastline
+
 set virtualedit="block,insert"
 set hlsearch
 set incsearch
-set listchars=tab:▸\ ,trail:·,extends:#,nbsp:·
+set listchars=tab:▸\ ,trail:·,extends:>,precedes:<,nbsp:·
 set pastetoggle=<F12>
 set fileformats="unix,dos,mac"
-set formatoptions+=1
+set formatoptions+=1j
 
 set foldmethod=marker
 set foldlevelstart=0
@@ -297,6 +301,7 @@ set laststatus=2
 set hidden
 set switchbuf=useopen
 set history=1000
+set tabpagemax=50
 set undolevels=1000
 if v:version >= 730
   set undofile
@@ -308,7 +313,8 @@ else
   set backup
 endif
 set backupdir=~/.vim/backup//
-set viminfo='30,\"80
+set viminfo=!'30,\"80
+set sessionoptions-=options
 set wildmenu
 set wildmode=list:longest,full
 set wildignore=*.swp,*.bak,*.pyc,*.class,*.beam
@@ -324,6 +330,8 @@ set spelllang=en_us
 set grepprg=ag\ --vimgrep\ $*
 set grepformat=%f:%l:%c:%m
 
+runtime! macros/matchit.vim
+
 " Shortcut mappings {{{1
 let mapleader = ","
 let g:mapleader = ","
@@ -334,6 +342,8 @@ let g:maplocalleader = "\\"
 noremap! <F1> <Esc>
 
 map <space> <Plug>(easymotion-prefix)
+
+inoremap <C-U> <C-G>u<C-U>
 
 cnoremap %p <C-R>=expand('%:p')<cr>
 cnoremap %h <C-R>=expand('%:h').'/'<cr>
