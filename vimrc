@@ -313,7 +313,7 @@ else
   set backup
 endif
 set backupdir=~/.vim/backup//
-set viminfo=!'30,\"80
+set viminfo=!,'30,\"80
 set sessionoptions-=options
 set wildmenu
 set wildmode=list:longest,full
