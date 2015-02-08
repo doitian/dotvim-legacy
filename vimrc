@@ -368,8 +368,6 @@ nmap gxx <Plug>(ExchangeLine)
 nmap gX <Plug>(ExchangeClear)
 vmap gx <Plug>(Exchange)
 
-nnoremap ds<space> F<space>xf<space>x
-
 nnoremap <silent> <leader>. :CtrlPClearAllCaches<cr>
 nnoremap <silent> <leader>1 <C-w>o
 nnoremap <silent> <leader>2 <C-w>o<C-w>s<C-w>w:b#<CR><C-w>w
