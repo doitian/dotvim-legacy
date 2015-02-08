@@ -11,16 +11,15 @@ call vundle#rc()
 Plugin 'gmarik/vundle'
 
 Plugin 'Glench/Vim-Jinja2-Syntax'
-Plugin 'Gundo'
 Plugin 'Lokaltog/vim-easymotion'
 Plugin 'altercation/vim-colors-solarized'
 Plugin 'amiorin/ctrlp-z'
 Plugin 'bkad/CamelCaseMotion'
 Plugin 'bling/vim-airline'
-Plugin 'jlanzarotta/bufexplorer'
 Plugin 'editorconfig/editorconfig-vim'
 Plugin 'edkolev/erlang-motions.vim'
 Plugin 'elixir-lang/vim-elixir'
+Plugin 'jlanzarotta/bufexplorer'
 Plugin 'junegunn/vim-easy-align'
 Plugin 'kana/vim-textobj-indent'
 Plugin 'kana/vim-textobj-lastpat'
@@ -31,6 +30,7 @@ Plugin 'mattn/emmet-vim'
 Plugin 'rizzatti/dash.vim'
 Plugin 'rking/ag.vim'
 Plugin 'scrooloose/syntastic'
+Plugin 'sjl/gundo.vim'
 Plugin 'slim-template/vim-slim'
 Plugin 'thinca/vim-visualstar'
 Plugin 'tommcdo/vim-exchange'
@@ -82,12 +82,6 @@ set bg=dark
 hi MatchParen cterm=bold ctermbg=none ctermfg=red gui=bold guibg=NONE guifg=red
 
 " Plugins Options {{{1
-let Tlist_Exit_OnlyWindow=1
-let Tlist_GainFocus_On_ToggleOpen=1
-let Tlist_WinWidth=40
-let Tlist_Inc_Winwidth=0
-let Tlist_Use_Right_Window=1
-
 let g:ctrlp_root_markers = []
 let g:ctrlp_working_path_mode = 'a'
 let g:ctrlp_map = '<leader>,'
@@ -96,6 +90,9 @@ let g:ctrlp_custom_ignore = {
   \ 'dir':  '\v[\/](\.(git|hg|svn)|_build)$',
   \ }
 let g:ctrlp_extensions = ['Z', 'F']
+let g:ctrlp_buftag_types = {
+  \ 'yaml'     : '--languages=ansible --ansible-types=k',
+  \ }
 
 " syntastic
 let g:syntastic_mode_map = { "mode": "passive",
@@ -106,6 +103,17 @@ let g:syntastic_auto_loc_list = 1
 let g:user_emmet_settings = {
       \ 'indentation' : '  '
       \ }
+
+let g:rails_projections = {
+      \ "app/api/*.rb": {
+      \   "command": "api",
+      \   "template":
+      \     ["class {camelcase|capitalize|colons}", "end"],
+      \   "test": [
+      \     "test/api/{}_test.rb",
+      \     "spec/api/{}_spec.rb"
+      \   ]
+      \ }}
 
 " Functions & Commands {{{1
 function! EchoError(msg)
@@ -176,17 +184,19 @@ endif
 
 command! Sw w !sudo tee % >/dev/null
 
-command! Reload :source ~/.vimrc | :filetype detect
-command! Clear :CtrlPClearCache | :bufdo bd | :silent! argd *
-command! -nargs=1 -complete=dir Cd :bufdo bd | :silent! argd * | cd <q-args>
+command! Reload :source ~/.vimrc | :filetype detect | :nohl
+command! Clear :CtrlPClearCache | :bufdo bd | :silent! argd * | :nohl
 
 " Toggle [ ] and [x]
 function! ToggleTodoStatus(clear)
+  let _s = @/
   if a:clear
     s/\[[-x]\]/[ ]/e
   else
     s/\[\([- x]\)\]/\=submatch(1) == ' ' ? '[x]' : '[ ]'/e
   endif
+  let @/ = _s
+  nohl
 endfunction
 
 " Returns true if paste mode is enabled
@@ -208,10 +218,10 @@ function! Preserve(command)
   normal H
   let save_window = getpos(".")
   call setpos('.', save_cursor)
- 
+
   " Do the business:
   execute a:command
- 
+
   " Restore the last_search
   let @/=last_search
   " Restore the window position
@@ -358,6 +368,8 @@ nmap gxx <Plug>(ExchangeLine)
 nmap gX <Plug>(ExchangeClear)
 vmap gx <Plug>(Exchange)
 
+nnoremap ds<space> F<space>xf<space>x
+
 nnoremap <silent> <leader>. :CtrlPClearAllCaches<cr>
 nnoremap <silent> <leader>1 <C-w>o
 nnoremap <silent> <leader>2 <C-w>o<C-w>s<C-w>w:b#<CR><C-w>w
@@ -383,15 +395,20 @@ nnoremap <silent> ]l :lnext<CR>
 nnoremap <silent> [l :lprevious<CR>
 
 " shortcut to jump to next conflict marker
+nnoremap <leader>g. :e <C-R>=expand('%:h').'/'<cr>
 nnoremap <silent> <leader>gb :CtrlPBuffer<CR>
 nnoremap <silent> <leader>gd :CtrlPDir<CR>
 nnoremap <silent> <leader>gh :CtrlPF<CR>
 nnoremap <silent> <leader>gz :CtrlPZ<CR>
 nnoremap <silent> <leader>gf :CtrlPCurFile<CR>
-nnoremap <leader>go :grep<Space><Space><C-v>%<Left><Left>
+nnoremap <silent> <leader>ge :CtrlPQuickfix<CR>
+nnoremap <silent> <leader>go :CtrlPLine<CR>
 nnoremap <silent> <leader>gr :CtrlPMRUFiles<CR>
-nnoremap <leader>g. :e <C-R>=expand('%:h').'/'<cr>
 nnoremap <silent> <leader>gt :CtrlPTag<CR>
+nnoremap <silent> <leader>gg :CtrlPMixed<CR>
+nnoremap <silent> <leader>gc :CtrlPChange<CR>
+nnoremap <silent> <leader>gC :CtrlPChangeAll<CR>
+nnoremap <silent> <leader>gB :CtrlPBookmarkDir<CR>
 
 nmap <silent> <leader>h <Plug>DashSearch
 nmap <silent> <leader>H <Plug>DashGlobalSearch
@@ -401,9 +418,12 @@ nnoremap <silent> <leader>I :CtrlPBufTagAll<CR>
 
 " UNUSED j, k
 
-nnoremap <silent> <leader>lt :TlistToggle<CR>
 nmap <silent> <leader>ll <Plug>VinegarUp
 nmap <silent> <leader>lv <Plug>VinegarVerticalSplitUp
+nmap <silent> <leader>lt :tags<cr>
+nmap <silent> <leader>lm :marks<cr>
+nmap <silent> <leader>lr :registers<cr>
+nmap <silent> <leader>l@ :registers<cr>
 noremap <silent> <leader>lbe :BufExplorer<CR>
 noremap <silent> <leader>lbs :BufExplorerHorizontalSplit<CR>
 noremap <silent> <leader>lbv :BufExplorerVerticalSplit<CR>
@@ -437,7 +457,7 @@ nnoremap <silent> <leader>sX :call ToggleTodoStatus(1)<cr>
 vnoremap <silent> <leader>sx :call ToggleTodoStatus(0)<cr>
 vnoremap <silent> <leader>sX :call ToggleTodoStatus(1)<cr>
 " Strip all trailing whitespace from a file
-nnoremap <silent> <leader>sw :%s/\s\+$//e<CR>:let @/=''<CR>:echo "Trailing whitespace cleaned"<CR>
+nnoremap <silent> <leader>sw :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar>:nohl<cr>
 
 nnoremap <leader>tm :Make<cr>
 nnoremap <leader>tb :Make!<cr>
