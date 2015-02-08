@@ -10,43 +10,44 @@ set rtp+=~/.vim/bundle/vundle/
 call vundle#rc()
 Plugin 'gmarik/vundle'
 
-Plugin 'tpope/vim-projectionist'
-Plugin 'tpope/vim-markdown'
-Plugin 'tpope/vim-repeat'
-Plugin 'tpope/vim-surround'
-Plugin 'tpope/vim-fugitive'
-Plugin 'tpope/vim-abolish'
-Plugin 'tpope/vim-vinegar'
-Plugin 'tpope/vim-dispatch'
-Plugin 'tpope/vim-rake'
-Plugin 'tpope/vim-rails'
-Plugin 'tpope/vim-endwise'
-Plugin 'bkad/CamelCaseMotion'
-Plugin 'kana/vim-textobj-user'
-Plugin 'kana/vim-textobj-indent'
-Plugin 'tomtom/tcomment_vim'
-Plugin 'vim-ruby/vim-ruby'
-Plugin 'kchmck/vim-coffee-script'
-Plugin 'rking/ag.vim'
-Plugin 'kien/ctrlp.vim'
-Plugin 'slim-template/vim-slim'
-Plugin 'junegunn/vim-easy-align'
-Plugin 'taglist.vim'
+Plugin 'Glench/Vim-Jinja2-Syntax'
 Plugin 'Gundo'
-Plugin 'bufexplorer.zip'
-Plugin 'edkolev/erlang-motions.vim'
-Plugin 'elixir-lang/vim-elixir'
-Plugin 'scrooloose/syntastic'
-Plugin 'editorconfig/editorconfig-vim'
-Plugin 'amiorin/ctrlp-z'
-Plugin 'thinca/vim-visualstar'
 Plugin 'Lokaltog/vim-easymotion'
 Plugin 'altercation/vim-colors-solarized'
-Plugin 'tommcdo/vim-exchange'
+Plugin 'amiorin/ctrlp-z'
+Plugin 'bkad/CamelCaseMotion'
 Plugin 'bling/vim-airline'
-Plugin 'rizzatti/dash.vim'
+Plugin 'jlanzarotta/bufexplorer'
+Plugin 'editorconfig/editorconfig-vim'
+Plugin 'edkolev/erlang-motions.vim'
+Plugin 'elixir-lang/vim-elixir'
+Plugin 'junegunn/vim-easy-align'
+Plugin 'kana/vim-textobj-indent'
+Plugin 'kana/vim-textobj-lastpat'
+Plugin 'kana/vim-textobj-user'
+Plugin 'kchmck/vim-coffee-script'
+Plugin 'kien/ctrlp.vim'
 Plugin 'mattn/emmet-vim'
-Plugin 'Glench/Vim-Jinja2-Syntax'
+Plugin 'rizzatti/dash.vim'
+Plugin 'rking/ag.vim'
+Plugin 'scrooloose/syntastic'
+Plugin 'slim-template/vim-slim'
+Plugin 'thinca/vim-visualstar'
+Plugin 'tommcdo/vim-exchange'
+Plugin 'tomtom/tcomment_vim'
+Plugin 'tpope/vim-abolish'
+Plugin 'tpope/vim-dispatch'
+Plugin 'tpope/vim-endwise'
+Plugin 'tpope/vim-fugitive'
+Plugin 'tpope/vim-markdown'
+Plugin 'tpope/vim-projectionist'
+Plugin 'tpope/vim-rails'
+Plugin 'tpope/vim-rake'
+Plugin 'tpope/vim-repeat'
+Plugin 'tpope/vim-surround'
+Plugin 'tpope/vim-vinegar'
+Plugin 'vim-ruby/vim-ruby'
+
 " Plugin 'SirVer/ultisnips'
 " Plugin 'honza/vim-snippets
 
@@ -310,6 +311,15 @@ noremap! <F1> <Esc>
 
 map <space> <Plug>(easymotion-prefix)
 
+cnoremap %p <C-R>=expand('%:p')<cr>
+cnoremap %h <C-R>=expand('%:h').'/'<cr>
+cnoremap %t <C-R>=expand('%:t')<cr>
+cnoremap %% <C-R>=expand('%')<cr>
+noremap <leader>%p i<C-R>=expand('%:p')<cr><Esc>
+noremap <leader>%h i<C-R>=expand('%:h').'/'<cr><Esc>
+noremap <leader>%t i<C-R>=expand('%:t')<cr><Esc>
+noremap <leader>%% i<C-R>=expand('%')<cr><Esc>
+
 nnoremap ; :
 nnoremap <C-e> 3<C-e>
 nnoremap <C-y> 3<C-y>
@@ -399,7 +409,7 @@ noremap <silent> <leader>lbs :BufExplorerHorizontalSplit<CR>
 noremap <silent> <leader>lbv :BufExplorerVerticalSplit<CR>
 
 nnoremap <silent> <leader>m :Dispatch<CR>
-nnoremap <silent> <leader>M :Make<CR>
+nnoremap <silent> <leader>M :Dispatch!<CR>
 nnoremap <silent> ]e :cnext<CR>
 nnoremap <silent> [e :cprevious<CR>
 
@@ -429,6 +439,9 @@ vnoremap <silent> <leader>sX :call ToggleTodoStatus(1)<cr>
 " Strip all trailing whitespace from a file
 nnoremap <silent> <leader>sw :%s/\s\+$//e<CR>:let @/=''<CR>:echo "Trailing whitespace cleaned"<CR>
 
+nnoremap <leader>tm :Make<cr>
+nnoremap <leader>tb :Make!<cr>
+nnoremap <leader>to :Copen<cr>
 nnoremap <leader>td :Dispatch<space>
 nnoremap <leader>ts :Start<space>
 nnoremap <leader>tf :Focus<space>
