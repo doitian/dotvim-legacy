@@ -42,7 +42,6 @@ Plugin 'tpope/vim-fugitive'
 Plugin 'tpope/vim-markdown'
 Plugin 'tpope/vim-projectionist'
 Plugin 'tpope/vim-rails'
-Plugin 'tpope/vim-rake'
 Plugin 'tpope/vim-repeat'
 Plugin 'tpope/vim-surround'
 Plugin 'tpope/vim-vinegar'
@@ -107,12 +106,27 @@ let g:user_emmet_settings = {
 let g:rails_projections = {
       \ "app/api/*.rb": {
       \   "command": "api",
-      \   "template":
-      \     ["class {camelcase|capitalize|colons}", "end"],
+      \   "template": ["class {camelcase|capitalize|colons}", "end"],
       \   "test": [
       \     "test/api/{}_test.rb",
       \     "spec/api/{}_spec.rb"
       \   ]
+      \ }}
+let g:projectionist_heuristics = {
+      \ "Rakefile" : {
+      \   "lib/*.rb": {
+      \     "type": "lib",
+      \     "template": ["class {camelcase|capitalize|colons}"],
+      \     "alternate": "test/{}_test.rb"
+      \   },
+      \   "test/*_test.rb": {
+      \     "type": "test",
+      \     "dispatch": "ruby -Ilib -Itest {file}",
+      \     "template": ["class {camelcase|capitalize|colons}Test < Minitest::Test", ""],
+      \     "alternate": "lib/{}.rb",
+      \     "related": "test/test_helper.rb"
+      \   },
+      \   "*": { "make": "rake" }
       \ }}
 
 " Functions & Commands {{{1
