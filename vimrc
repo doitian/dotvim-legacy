@@ -122,11 +122,22 @@ let g:projectionist_heuristics = {
       \   "test/*_test.rb": {
       \     "type": "test",
       \     "dispatch": "ruby -Ilib -Itest {file}",
-      \     "template": ["class {camelcase|capitalize|colons}Test < Minitest::Test", ""],
+      \     "template": ["class {camelcase|capitalize|colons}Test < Minitest::Test", "end"],
       \     "alternate": "lib/{}.rb",
       \     "related": "test/test_helper.rb"
       \   },
       \   "*": { "make": "rake" }
+      \ },
+      \ "tasks/main.yml": {
+      \   "tasks/*.yml": {
+      \     "alternate": ["defaults/{}.yml","defaults/main.yml"],
+      \     "type": "task"
+      \   },
+      \   "handlers/*.yml": { "type": "handler" },
+      \   "defaults/*.yml": { "type": "def" },
+      \   "vars/*.yml": { "type": "var" },
+      \   "meta/main.yml": { "type": "meta" },
+      \   "*": { "alternate": "tasks/main.yml" }
       \ }}
 
 " Functions & Commands {{{1
